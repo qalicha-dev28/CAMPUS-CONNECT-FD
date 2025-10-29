@@ -1,115 +1,99 @@
-import { Link, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
-  const navigate = useNavigate();
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // Call context login (mock until backend connected)
+    login(email, password);
+  }
 
   return (
-    <main className="bg-[#0D0D0D] text-white min-h-screen py-12">
-      <div className="max-w-[1360px] mx-auto px-10">
+    <div className="min-h-screen bg-[#0e0e0e] text-white flex flex-col px-8 py-16">
+      {/* Back link */}
+      <Link to="/" className="text-sm text-gray-400 hover:text-gray-200 mb-6">
+        ← Back
+      </Link>
 
-        {/* Top Back Link */}
-        <div className="flex justify-end mb-10">
+      {/* Heading */}
+      <div className="flex gap-16 justify-center w-full">
+        <div>
+          <h1 className="text-4xl font-semibold leading-tight">
+            Welcome Back to
+            <span className="block text-lime-400">CampusConnect</span>
+          </h1>
+          <p className="mt-4 text-gray-400 max-w-md text-sm">
+            Login to access all your campus services and manage your bookings in one convenient place.
+          </p>
+
+          {/* Quick demo accounts */}
+          <div className="mt-6 bg-[#141414] p-4 rounded-lg text-sm text-gray-300">
+            <p className="text-gray-400 mb-2">Quick login demo accounts:</p>
+            <p>
+              <span className="text-lime-400 mr-2">Student:</span> student@campus.edu
+            </p>
+            <p>
+              <span className="text-lime-400 mr-2">Vendor:</span> vendor@campus.edu
+            </p>
+            <p>
+              <span className="text-lime-400 mr-2">Admin:</span> admin@campus.edu
+            </p>
+            <p className="mt-2 text-gray-500 text-xs">Password: any</p>
+          </div>
+        </div>
+
+        {/* Login form */}
+        <form
+          onSubmit={handleSubmit}
+          className="bg-[#141414] p-6 rounded-xl w-[360px] shadow-lg"
+        >
+          <h2 className="text-xl font-medium mb-4">Login</h2>
+
+          <label className="text-sm text-gray-400">Email Address</label>
+          <input
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full mt-1 mb-4 bg-[#0e0e0e] border border-gray-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-lime-400"
+          />
+
+          <label className="text-sm text-gray-400">Password</label>
+          <input
+            type="password"
+            required
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full mt-1 bg-[#0e0e0e] border border-gray-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-lime-400"
+          />
+
+          <p className="text-xs text-gray-500 mt-2 mb-4 hover:underline cursor-pointer">
+            Forgot password?
+          </p>
+
           <button
-            onClick={() => navigate(-1)}
-            className="flex items-center text-gray-400 hover:text-neon text-[13px] transition-colors"
+            type="submit"
+            className="w-full bg-lime-400 text-black py-2 rounded-lg font-medium hover:bg-lime-300 transition-all duration-200"
           >
-            ← Back
+            Login
           </button>
-        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
-          {/* LEFT SECTION */}
-          <div>
-            <h1 className="text-[32px] font-bold leading-snug">
-              Welcome Back to <br />
-              <span className="text-neon">CampusConnect</span>
-            </h1>
-            <p className="text-gray-400 text-[14px] mt-2 max-w-[440px]">
-              Login to access all your campus services and manage your bookings in one convenient place.
-            </p>
-
-            {/* Quick Accounts */}
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4 }}
-              className="bg-[#161616] border border-gray-800 rounded-lg px-5 py-4 mt-6 max-w-[380px]"
+          <p className="mt-4 text-center text-sm text-gray-400">
+            Don't have an account?
+            <Link
+              to="/signup"
+              className="text-lime-400 ml-1 hover:text-lime-300"
             >
-              <p className="text-[12.5px] text-gray-400 mb-2">Quick login demo accounts:</p>
-
-              <div className="text-[12.5px] space-y-1">
-                <p>
-                  <span className="text-neon font-medium">Student:</span> student@campus.edu
-                </p>
-                <p>
-                  <span className="text-neon font-medium">Vendor:</span> vendor@campus.edu
-                </p>
-                <p>
-                  <span className="text-neon font-medium">Admin:</span> admin@campus.edu
-                </p>
-                <p className="text-gray-500 mt-1">Password: any</p>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* RIGHT FORM */}
-          <div className="lg:pr-12">
-            <h2 className="text-[18px] font-semibold">Login</h2>
-            <p className="text-[13px] text-gray-500 mt-1">
-              Enter your credentials to continue
-            </p>
-
-            <form className="mt-8 space-y-6 max-w-[420px]">
-              {/* Email */}
-              <div>
-                <label className="block text-[13px] text-gray-300 mb-1">Email Address</label>
-                <input
-                  type="email"
-                  placeholder="student@campus.edu"
-                  className="w-full bg-transparent border border-gray-700 rounded-md px-3 py-[10px] text-[14px]
-                             focus:outline-none focus:border-neon transition-colors"
-                />
-              </div>
-
-              {/* Password */}
-              <div>
-                <label className="block text-[13px] text-gray-300 mb-1">Password</label>
-                <input
-                  type="password"
-                  placeholder="••••••••"
-                  className="w-full bg-transparent border border-gray-700 rounded-md px-3 py-[10px] text-[14px]
-                             focus:outline-none focus:border-neon transition-colors"
-                />
-              </div>
-
-              {/* Forgot */}
-              <div className="text-right">
-                <button className="text-[12px] text-gray-400 hover:text-neon transition-colors">
-                  Forgot password?
-                </button>
-              </div>
-
-              {/* Login Button */}
-              <button
-                type="submit"
-                className="w-full bg-neon text-black font-semibold rounded-md py-[11px] text-[14px]
-                           hover:shadow-[0_14px_40px_-14px_rgba(184,255,35,0.6)]
-                           transition-all"
-              >
-                Login
-              </button>
-            </form>
-
-            <p className="text-gray-400 text-[13px] mt-5">
-              Don’t have an account?
-              <Link to="/signup" className="text-neon ml-1 hover:underline">
-                Sign up
-              </Link>
-            </p>
-          </div>
-        </div>
+              Sign up
+            </Link>
+          </p>
+        </form>
       </div>
-    </main>
+    </div>
   );
 }
