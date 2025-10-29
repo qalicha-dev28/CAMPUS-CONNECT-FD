@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiChevronRight } from "react-icons/fi";
+import ScrollProgress from "../components/interactions/ScrollProgress";
+import MagneticButton from "../components/interactions/MagneticButton";
 
 /* ---- Motion presets ---- */
 const fadeUp = {
@@ -19,7 +21,13 @@ const containerStagger = {
 
 function PopularCard({ title, subtitle, i }) {
   return (
-    <motion.div custom={i} variants={fadeUp} className="group relative rounded-xl">
+    <motion.div
+      custom={i}
+      variants={fadeUp}
+      whileHover={{ rotateZ: 0.6, scale: 1.015 }}
+      transition={{ duration: 0.25 }}
+      className="group relative rounded-xl"
+    >
       {/* subtle gradient edge */}
       <div className="rounded-xl p-[1.5px] bg-gradient-to-b from-gray-800 to-gray-900">
         <div
@@ -39,10 +47,15 @@ function PopularCard({ title, subtitle, i }) {
 export default function LandingPage() {
   return (
     <main className="bg-[#0D0D0D] text-white">
-      {/* Constrain to Figma frame */}
+      {/* 🔥 Neon scroll progress bar */}
+      <ScrollProgress />
+
+      {/* Figma Frame */}
       <div className="max-w-[1536px] mx-auto min-h-[1235px]">
+
         {/* HERO */}
         <section className="relative px-10 pt-24 pb-20 grid grid-cols-1 md:grid-cols-2 gap-20 items-center overflow-hidden">
+
           {/* Soft neon glow */}
           <motion.div
             initial={{ opacity: 0 }}
@@ -51,7 +64,7 @@ export default function LandingPage() {
             className="pointer-events-none absolute right-16 top-10 h-72 w-72 rounded-full bg-neon/8 blur-[120px]"
           />
 
-          {/* Left: headline & actions */}
+          {/* Left: headline & text */}
           <motion.div
             variants={containerStagger}
             initial="hidden"
@@ -75,18 +88,21 @@ export default function LandingPage() {
               tutoring, everything you need in one convenient platform.
             </motion.p>
 
+            {/* Button group */}
             <motion.div variants={fadeUp} custom={2} className="mt-6 flex items-center gap-5">
-              <motion.span whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+
+              {/* Magnetic CTA */}
+              <MagneticButton>
                 <Link
                   to="/signup"
                   className="inline-flex items-center gap-2 bg-neon text-black font-semibold rounded-md px-5 py-[10px] text-[13.5px]
                              shadow-[0_10px_28px_-10px_rgba(184,255,35,0.55)]
                              hover:shadow-[0_16px_36px_-12px_rgba(184,255,35,0.65)]
-                             focus:outline-none focus:ring-2 focus:ring-neon/70 focus:ring-offset-2 focus:ring-offset-[#0D0D0D] transition-all"
+                             transition-all"
                 >
                   Get Started <FiChevronRight className="text-black" />
                 </Link>
-              </motion.span>
+              </MagneticButton>
 
               <Link
                 to="/services"
@@ -97,17 +113,16 @@ export default function LandingPage() {
             </motion.div>
           </motion.div>
 
-          {/* Right: floating illustration card */}
+          {/* Right: floating illustration */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6, ease: "anticipate" }}
+            animate={{ y: [0, -6, 0] }}
+            transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
             className="hidden md:block"
           >
-            <motion.div
-              animate={{ y: [0, -6, 0] }}
-              transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut" }}
+            <div
               className="w-full h-[240px] rounded-2xl bg-gradient-to-b from-[#1b1b1b] to-[#161616]
                          border border-gray-800/80 flex items-center justify-center"
             >
@@ -116,8 +131,9 @@ export default function LandingPage() {
                 <div className="w-14 h-3 rounded bg-neon" />
                 <div className="w-10 h-10 rounded-full bg-gray-500/85" />
               </div>
-            </motion.div>
+            </div>
           </motion.div>
+
         </section>
 
         {/* Popular Services */}
@@ -148,6 +164,7 @@ export default function LandingPage() {
 
         {/* Divider & Footer */}
         <div className="border-t border-gray-800" />
+
         <motion.footer
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -162,6 +179,7 @@ export default function LandingPage() {
             </div>
           </div>
         </motion.footer>
+
       </div>
     </main>
   );
