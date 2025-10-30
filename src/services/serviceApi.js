@@ -1,34 +1,31 @@
-// Temporary mock API since backend isn't connected yet
-// You can replace these with real fetch calls later.
-
-export async function fetchServices() {
-  // simulate network delay
-  await new Promise((r) => setTimeout(r, 300));
-
+// src/services/serviceApi.js (append if missing)
+export async function fetchMockBookings() {
+  // simulate network
+  await new Promise((r) => setTimeout(r, 350));
   return [
     {
       id: 1,
-      name: "Express Laundry Service",
-      description: "Quick pickup & fold service",
+      title: "Express Laundry Service",
+      date: "2025-10-16 10:00",
+      location: "204B",
       price: 8.99,
-      rating: 4.7,
-      category: "Laundry",
+      status: "confirmed",
     },
     {
       id: 2,
-      name: "24/7 Printing & Copy",
-      description: "Copy, scanning, document binding",
-      price: 5.5,
-      rating: 4.4,
-      category: "Printing",
+      title: "Math & Science Tutoring",
+      date: "2025-10-17 14:00",
+      location: "Library 3F",
+      price: 25.0,
+      status: "pending",
     },
     {
       id: 3,
-      name: "Math & Science Tutoring",
-      description: "Expert academic support",
-      price: 25.0,
-      rating: 4.9,
-      category: "Tutoring",
+      title: "24/7 Printing & Copy",
+      date: "2025-10-15 09:00",
+      location: "N/A",
+      price: 5.5,
+      status: "completed",
     },
   ];
 }
