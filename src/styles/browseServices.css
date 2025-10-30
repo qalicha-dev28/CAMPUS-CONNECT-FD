@@ -1,0 +1,33 @@
+.services-page {
+  padding: 2rem;
+  color: white;
+}
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 1rem;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 1rem;
+}
+
+.service-card {
+  background: #1b1b1b;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #2c2c2c;
+  transition: 0.3s;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  border-color: #04ff9f;
+  box-shadow: 0px 0px 12px #04ff9f33;
+}
+
+.price {
+  color: #04ff9f;
+}

@@ -1,30 +1,58 @@
-// src/services/serviceApi.js (append if missing)
-export async function fetchMockBookings() {
-  // simulate network
-  await new Promise((r) => setTimeout(r, 350));
+// src/services/serviceApi.js
+
+export async function fetchServices() {
   return [
     {
       id: 1,
-      title: "Express Laundry Service",
-      date: "2025-10-16 10:00",
-      location: "204B",
-      price: 8.99,
+      name: "Laundry Service",
+      vendorName: "CleanWave Laundry",
+      rating: 4.5,
+      reviews: 34,
+      price: "$5 per kg",
+      category: "Laundry",
+    },
+    {
+      id: 2,
+      name: "Printing Service",
+      vendorName: "SwiftPrint",
+      rating: 4.2,
+      reviews: 17,
+      price: "$0.20 per page",
+      category: "Printing",
+    },
+    {
+      id: 3,
+      name: "Tutoring",
+      vendorName: "TutorHub",
+      rating: 4.8,
+      reviews: 41,
+      price: "$10/hr",
+      category: "Tutoring",
+    },
+  ];
+}
+
+export async function fetchMockBookings() {
+  return [
+    {
+      id: 1,
+      service: "Laundry Service",
+      vendor: "CleanWave Laundry",
+      date: "2025-02-03",
       status: "confirmed",
     },
     {
       id: 2,
-      title: "Math & Science Tutoring",
-      date: "2025-10-17 14:00",
-      location: "Library 3F",
-      price: 25.0,
+      service: "Printing Service",
+      vendor: "SwiftPrint",
+      date: "2025-02-05",
       status: "pending",
     },
     {
       id: 3,
-      title: "24/7 Printing & Copy",
-      date: "2025-10-15 09:00",
-      location: "N/A",
-      price: 5.5,
+      service: "Tutoring Session",
+      vendor: "TutorHub",
+      date: "2025-02-07",
       status: "completed",
     },
   ];

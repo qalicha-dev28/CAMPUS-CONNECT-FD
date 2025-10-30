@@ -1,36 +1,36 @@
+// src/App.jsx
 import { Routes, Route } from "react-router-dom";
+
 import LandingPage from "./pages/LandingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import BrowseServices from "./pages/services/BrowseServices";
-import StudentDashboard from "./pages/dashboard/StudentDashboard";
+
 import ProtectedRoute from "./components/ProtectedRoute";
-import { AuthProvider } from "./context/AuthContext";
 
-function App() {
+// Student pages
+import StudentLayout from "./pages/student/StudentLayout";
+import Overview from "./pages/student/Overview";
+import Services from "./pages/student/Services";
+import Bookings from "./pages/student/Bookings";
+import Profile from "./pages/student/Profile";
+
+export default function App() {
   return (
-    <AuthProvider>
-      <Routes>
+    <Routes>
+      {/* Public pages */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
 
-        {/* ✅ Public Routes */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/services" element={<BrowseServices />} />
-
-        {/* ✅ Protected Routes */}
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute allow={["student", "vendor"]}>
-              <StudentDashboard />
-            </ProtectedRoute>
-          }
-        />
-
-      </Routes>
-    </AuthProvider>
+      {/* Protected student routes */}
+      <Route element={<ProtectedRoute role="student" />}>
+        <Route path="/student" element={<StudentLayout />}>
+          <Route path="dashboard" element={<Overview />} />
+          <Route path="services" element={<Services />} />
+          <Route path="bookings" element={<Bookings />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
-
-export default App;
