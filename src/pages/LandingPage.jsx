@@ -1,10 +1,11 @@
+// src/pages/LandingPage.jsx
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiChevronRight } from "react-icons/fi";
 import ScrollProgress from "../components/interactions/ScrollProgress";
 import MagneticButton from "../components/interactions/MagneticButton";
+import { useAuth } from "../context/AuthContext";
 
-/* ---- Motion presets ---- */
 const fadeUp = {
   hidden: { opacity: 0, y: 16 },
   show: (i = 0) => ({
@@ -28,7 +29,6 @@ function PopularCard({ title, subtitle, i }) {
       transition={{ duration: 0.25 }}
       className="group relative rounded-xl"
     >
-      {/* subtle gradient edge */}
       <div className="rounded-xl p-[1.5px] bg-gradient-to-b from-gray-800 to-gray-900">
         <div
           className="rounded-[10px] bg-[#1b1b1b] border border-gray-800/80 px-7 py-6 h-[110px]
@@ -47,16 +47,13 @@ function PopularCard({ title, subtitle, i }) {
 export default function LandingPage() {
   return (
     <main className="bg-[#0D0D0D] text-white">
-      {/* 🔥 Neon scroll progress bar */}
       <ScrollProgress />
 
-      {/* Figma Frame */}
       <div className="max-w-[1536px] mx-auto min-h-[1235px]">
 
-        {/* HERO */}
+        {/* HERO SECTION */}
         <section className="relative px-10 pt-24 pb-20 grid grid-cols-1 md:grid-cols-2 gap-20 items-center overflow-hidden">
 
-          {/* Soft neon glow */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.9 }}
@@ -64,7 +61,6 @@ export default function LandingPage() {
             className="pointer-events-none absolute right-16 top-10 h-72 w-72 rounded-full bg-neon/8 blur-[120px]"
           />
 
-          {/* Left: headline & text */}
           <motion.div
             variants={containerStagger}
             initial="hidden"
@@ -84,14 +80,11 @@ export default function LandingPage() {
               custom={1}
               className="mt-4 text-gray-300 max-w-[560px] text-[15px] leading-relaxed"
             >
-              Connect with essential campus services instantly. From laundry to
-              tutoring, everything you need in one convenient platform.
+              Connect with essential campus services instantly. From laundry to tutoring,
+              everything you need in one convenient platform.
             </motion.p>
 
-            {/* Button group */}
             <motion.div variants={fadeUp} custom={2} className="mt-6 flex items-center gap-5">
-
-              {/* Magnetic CTA */}
               <MagneticButton>
                 <Link
                   to="/signup"
@@ -113,7 +106,6 @@ export default function LandingPage() {
             </motion.div>
           </motion.div>
 
-          {/* Right: floating illustration */}
           <motion.div
             initial={{ opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -133,10 +125,9 @@ export default function LandingPage() {
               </div>
             </div>
           </motion.div>
-
         </section>
 
-        {/* Popular Services */}
+        {/* POPULAR SERVICES */}
         <section className="px-10 pb-20">
           <motion.div
             initial={{ opacity: 0, y: 12 }}
@@ -156,13 +147,12 @@ export default function LandingPage() {
             viewport={{ once: true, amount: 0.25 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 place-items-center"
           >
-            <PopularCard i={0} title="Laundry"  subtitle="Professional wash & fold service" />
+            <PopularCard i={0} title="Laundry" subtitle="Professional wash & fold service" />
             <PopularCard i={1} title="Printing" subtitle="24/7 print and copy services" />
             <PopularCard i={2} title="Tutoring" subtitle="Expert academic support" />
           </motion.div>
         </section>
 
-        {/* Divider & Footer */}
         <div className="border-t border-gray-800" />
 
         <motion.footer
@@ -179,7 +169,6 @@ export default function LandingPage() {
             </div>
           </div>
         </motion.footer>
-
       </div>
     </main>
   );

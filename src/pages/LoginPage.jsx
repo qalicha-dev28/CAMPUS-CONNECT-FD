@@ -1,99 +1,94 @@
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
   const { login } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [form, setForm] = useState({ email: "", password: "" });
 
-  function handleSubmit(e) {
+  function handleChange(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  }
+
+  async function handleSubmit(e) {
     e.preventDefault();
-    // Call context login (mock until backend connected)
-    login(email, password);
+    await login(form.email, form.password);
+    navigate("/dashboard/student");
   }
 
   return (
-    <div className="min-h-screen bg-[#0e0e0e] text-white flex flex-col px-8 py-16">
-      {/* Back link */}
-      <Link to="/" className="text-sm text-gray-400 hover:text-gray-200 mb-6">
-        ← Back
-      </Link>
+    <main className="bg-[#0E0E0E] text-white min-h-screen px-8 py-10">
+      <div className="max-w-[1500px] mx-auto">
+        <Link to="/" className="text-gray-300 text-sm hover:text-white">
+          ← Back
+        </Link>
 
-      {/* Heading */}
-      <div className="flex gap-16 justify-center w-full">
-        <div>
-          <h1 className="text-4xl font-semibold leading-tight">
-            Welcome Back to
-            <span className="block text-lime-400">CampusConnect</span>
-          </h1>
-          <p className="mt-4 text-gray-400 max-w-md text-sm">
-            Login to access all your campus services and manage your bookings in one convenient place.
-          </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-20 mt-10">
+          {/* Left Block */}
+          <div>
+            <h2 className="text-[28px] font-bold leading-tight">
+              Welcome Back to <br />
+              <span className="text-[#B8FF23]">CampusConnect</span>
+            </h2>
 
-          {/* Quick demo accounts */}
-          <div className="mt-6 bg-[#141414] p-4 rounded-lg text-sm text-gray-300">
-            <p className="text-gray-400 mb-2">Quick login demo accounts:</p>
-            <p>
-              <span className="text-lime-400 mr-2">Student:</span> student@campus.edu
+            <p className="mt-3 w-96 text-gray-400 text-[12.5px]">
+              Login to access all your campus services and manage your bookings
+              in one convenient place.
             </p>
-            <p>
-              <span className="text-lime-400 mr-2">Vendor:</span> vendor@campus.edu
-            </p>
-            <p>
-              <span className="text-lime-400 mr-2">Admin:</span> admin@campus.edu
-            </p>
-            <p className="mt-2 text-gray-500 text-xs">Password: any</p>
+
+            {/* Demo credentials box */}
+            <div className="bg-[#111] border border-gray-800 rounded mt-6 px-6 py-4 text-[11.5px] text-gray-400 leading-relaxed">
+              <p className="font-medium text-gray-300">
+                Quick login demo accounts:
+              </p>
+              <p className="text-[#B8FF23]">Student:</p>
+              student@campus.edu <br />
+              <p className="text-[#B8FF23] mt-1">Vendor:</p>
+              vendor@campus.edu <br />
+              <p className="text-[#B8FF23] mt-1">Admin:</p>
+              admin@campus.edu <br />
+              <p className="mt-2 text-xs">Password: any</p>
+            </div>
           </div>
-        </div>
 
-        {/* Login form */}
-        <form
-          onSubmit={handleSubmit}
-          className="bg-[#141414] p-6 rounded-xl w-[360px] shadow-lg"
-        >
-          <h2 className="text-xl font-medium mb-4">Login</h2>
-
-          <label className="text-sm text-gray-400">Email Address</label>
-          <input
-            type="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="w-full mt-1 mb-4 bg-[#0e0e0e] border border-gray-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-lime-400"
-          />
-
-          <label className="text-sm text-gray-400">Password</label>
-          <input
-            type="password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full mt-1 bg-[#0e0e0e] border border-gray-800 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-lime-400"
-          />
-
-          <p className="text-xs text-gray-500 mt-2 mb-4 hover:underline cursor-pointer">
-            Forgot password?
-          </p>
-
-          <button
-            type="submit"
-            className="w-full bg-lime-400 text-black py-2 rounded-lg font-medium hover:bg-lime-300 transition-all duration-200"
+          {/* Right Block - Form */}
+          <form
+            onSubmit={handleSubmit}
+            className="space-y-5 w-full max-w-[420px]"
           >
-            Login
-          </button>
+            <input
+              type="email"
+              name="email"
+              placeholder="Email Address"
+              className="w-full bg-[#111] border border-gray-800 px-4 py-2.5 text-sm rounded"
+              onChange={handleChange}
+            />
 
-          <p className="mt-4 text-center text-sm text-gray-400">
-            Don't have an account?
-            <Link
-              to="/signup"
-              className="text-lime-400 ml-1 hover:text-lime-300"
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              className="w-full bg-[#111] border border-gray-800 px-4 py-2.5 text-sm rounded"
+              onChange={handleChange}
+            />
+
+            <button
+              type="submit"
+              className="w-full bg-[#B8FF23] text-black text-sm py-2 rounded font-medium hover:opacity-90"
             >
-              Sign up
-            </Link>
-          </p>
-        </form>
+              Login
+            </button>
+
+            <p className="text-[11.5px] text-gray-400">
+              Don’t have an account?
+              <Link to="/signup" className="ml-1 text-[#B8FF23]">
+                Sign up
+              </Link>
+            </p>
+          </form>
+        </div>
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,47 +1,30 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useContext, useState, useEffect } from "react";
 
-const AuthContext = createContext(null);
-export const useAuth = () => useContext(AuthContext);
+const AuthContext = createContext();
 
-export default function AuthProvider({ children }) {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const navigate = useNavigate();
+export function AuthProvider({ children }) {
+  const [user, setUser] = useState(() => {
+    const stored = localStorage.getItem("user");
+    return stored ? JSON.parse(stored) : null;
+  });
 
-  useEffect(() => {
-    const t = localStorage.getItem("cc_token");
-    const u = localStorage.getItem("cc_user");
-    if (t && u) {
-      setToken(t);
-      setUser(JSON.parse(u));
-    }
-  }, []);
+  const login = (data) => {
+    setUser(data);
+    localStorage.setItem("user", JSON.stringify(data));
+  };
 
-  async function login(email, password) {
-    // MOCK LOGIN — replace when backend is ready
-    const fakeUser = { id: 1, email, role: "student", name: "Test Student" };
-    const fakeToken = "mock.jwt.token";
-
-    setUser(fakeUser);
-    setToken(fakeToken);
-    localStorage.setItem("cc_user", JSON.stringify(fakeUser));
-    localStorage.setItem("cc_token", fakeToken);
-
-    if (fakeUser.role === "student") navigate("/dashboard/student");
-  }
-
-  function logout() {
+  const logout = () => {
     setUser(null);
-    setToken(null);
-    localStorage.removeItem("cc_user");
-    localStorage.removeItem("cc_token");
-    navigate("/");
-  }
+    localStorage.removeItem("user");
+  };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
 }

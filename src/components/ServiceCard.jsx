@@ -1,16 +1,25 @@
-export default function ServiceCard({ name, price, category }) {
+import { useState } from "react";
+import ServiceDetails from "./modals/ServiceDetails";
+
+export default function ServiceCard({ service }) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="bg-darklight p-4 rounded border border-gray-800 hover:border-neon transition cursor-pointer shadow">
-      <p className="text-xs text-gray-500">{category}</p>
+    <>
+      <div
+        onClick={() => setOpen(true)}
+        className="w-72 bg-[#131313] border border-[#222] rounded-xl p-4 text-sm transition-all duration-300 hover:scale-[1.02] hover:border-lime-400 hover:shadow-xl hover:shadow-lime-600/20 cursor-pointer"
+      >
+        <p className="text-gray-300 mb-1 font-semibold">{service.name}</p>
+        <p className="text-[11px] text-gray-500 mb-3">{service.description}</p>
 
-      <h3 className="text-lg font-semibold mt-1">{name}</h3>
-
-      <div className="flex justify-between mt-4">
-        <span className="text-gray-400">KES {price}</span>
-        <button className="bg-neon text-black px-4 py-1 rounded font-semibold hover:opacity-80">
-          View
-        </button>
+        <div className="flex justify-between text-xs">
+          <span className="text-lime-400 font-semibold">${service.price}</span>
+          <span className="text-yellow-300">⭐ {service.rating}</span>
+        </div>
       </div>
-    </div>
+
+      {open && <ServiceDetails service={service} onClose={() => setOpen(false)} />}
+    </>
   );
 }
