@@ -1,25 +1,25 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
+import { getCurrentUser, logoutUser } from "../services/fakeAuth";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(() => {
-    const stored = localStorage.getItem("user");
-    return stored ? JSON.parse(stored) : null;
-  });
+  const [user, setUser] = useState(null);
 
-  const login = (data) => {
-    setUser(data);
-    localStorage.setItem("user", JSON.stringify(data));
-  };
+  useEffect(() => {
+    const u = getCurrentUser();
+    if (u) setUser(u);
+  }, []);
+
+  const login = (u) => setUser(u);
 
   const logout = () => {
+    logoutUser();
     setUser(null);
-    localStorage.removeItem("user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
