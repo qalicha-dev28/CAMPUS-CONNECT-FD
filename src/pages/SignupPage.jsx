@@ -1,120 +1,110 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { registerUser } from "../services/fakeAuth";
 import { useAuth } from "../context/AuthContext";
 
 export default function SignupPage() {
   const navigate = useNavigate();
   const { setUser } = useAuth();
 
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-    role: "student",
-  });
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [role, setRole] = useState("student");
 
-  const [error, setError] = useState("");
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
+    const newUser = { fullName, email, role };
+    localStorage.setItem("user", JSON.stringify(newUser));
+    setUser(newUser);
 
-  const submit = () => {
-    try {
-      registerUser(form);
-      setUser(form);
-
-      if (form.role === "student") navigate("/dashboard/student");
-      if (form.role === "vendor") navigate("/dashboard/vendor");
-    } catch (err) {
-      setError(err.message);
-    }
+    if (role === "student") navigate("/student/dashboard");
+    if (role === "vendor") navigate("/vendor/dashboard");
   };
 
   return (
-    <div className="bg-[#0D0D0D] text-white min-h-screen px-20 py-12">
-      <Link to="/" className="text-sm text-gray-400 hover:text-neon">
+    <div className="min-h-screen bg-black text-white px-16 pt-10">
+      <Link to="/" className="text-gray-400 text-sm mb-6 inline-block">
         ← Back
       </Link>
 
-      <div className="mt-10 flex justify-between">
-        {/* LEFT FORM */}
-        <div className="w-[420px]">
-          <h2 className="text-2xl font-bold">Create Account</h2>
-          <p className="text-gray-400 text-sm mt-1">
+      <h1 className="text-2xl font-bold mb-1">CampusConnect</h1>
+
+      <div className="flex justify-start gap-24 mt-10">
+        {/* FORM SECTION */}
+        <form onSubmit={handleSubmit} className="w-[380px]">
+          <h2 className="text-3xl font-bold mb-2">Create Account</h2>
+          <p className="text-gray-400 text-sm mb-6">
             Join thousands of students and vendors on campus
           </p>
 
-          <div className="mt-6 space-y-6">
-            <input
-              type="text"
-              name="name"
-              placeholder="Full Name"
-              className="w-full bg-transparent border border-gray-700 rounded px-3 py-2 text-sm"
-              onChange={handleChange}
-            />
+          <label className="text-sm text-gray-300">Full Name</label>
+          <input
+            className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 mb-4"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
+          />
 
-            <input
-              type="email"
-              name="email"
-              placeholder="Email Address"
-              className="w-full bg-transparent border border-gray-700 rounded px-3 py-2 text-sm"
-              onChange={handleChange}
-            />
+          <label className="text-sm text-gray-300">Email Address</label>
+          <input
+            className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 mb-4"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              className="w-full bg-transparent border border-gray-700 rounded px-3 py-2 text-sm"
-              onChange={handleChange}
-            />
+          <label className="text-sm text-gray-300">Password</label>
+          <input
+            type="password"
+            className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 mb-4"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            <select
-              name="role"
-              className="w-full bg-transparent border border-gray-700 rounded px-3 py-2 text-sm"
-              onChange={handleChange}
-            >
-              <option className="text-black">Student</option>
-              <option className="text-black">Vendor</option>
-            </select>
+          <label className="text-sm text-gray-300">I am a...</label>
+          <select
+            className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 mb-6"
+            value={role}
+            onChange={(e) => setRole(e.target.value)}
+          >
+            <option value="student">Student</option>
+            <option value="vendor">Vendor</option>
+          </select>
 
-            {error && <p className="text-red-500 text-sm">{error}</p>}
+          <button className="w-full bg-lime-400 hover:bg-lime-500 text-black font-semibold py-2 rounded">
+            Create Account
+          </button>
 
-            <button
-              onClick={submit}
-              className="w-full bg-neon text-black font-semibold py-2 rounded hover:opacity-80 transition"
-            >
-              Create Account
-            </button>
-          </div>
-
-          <p className="text-xs text-gray-500 mt-4">
+          <p className="text-gray-400 text-sm mt-3">
             Already have an account?
-            <Link to="/login" className="text-neon ml-1">
+            <Link className="text-lime-400 ml-1" to="/login">
               Login
             </Link>
           </p>
-        </div>
+        </form>
 
-        {/* RIGHT BOX */}
-        <div className="w-[290px] mt-4">
-          <p className="text-center font-semibold mb-3">Get Started Today</p>
-          <p className="text-gray-500 text-xs text-center mb-5">
-            Choose your account type:
-          </p>
+        {/* ACCOUNT TYPE SECTION */}
+        <div>
+          <h3 className="text-lg font-bold mb-1">Get Started Today</h3>
+          <p className="text-gray-400 text-sm mb-4">Choose your account type:</p>
 
-          <div className="bg-[#1B1B1B] border border-gray-700 rounded p-3 mb-4">
-            <p className="text-neon text-xs">★ Student Account</p>
-            <p className="text-gray-500 text-[11px]">
+          <div
+            onClick={() => setRole("student")}
+            className={`cursor-pointer border rounded-md p-3 w-[260px] mb-3 transition 
+              ${role === "student" ? "border-lime-400 bg-[#0f0f0f]" : "border-gray-700"}`}
+          >
+            <p className="text-lime-300 font-semibold text-sm">✦ Student Account</p>
+            <p className="text-gray-400 text-xs mt-1">
               Browse services, make bookings, and leave reviews
             </p>
           </div>
 
-          <div className="bg-[#1B1B1B] border border-gray-700 rounded p-3">
-            <p className="text-neon text-xs">⚑ Vendor Account</p>
-            <p className="text-gray-500 text-[11px]">
+          <div
+            onClick={() => setRole("vendor")}
+            className={`cursor-pointer border rounded-md p-3 w-[260px] transition
+              ${role === "vendor" ? "border-lime-400 bg-[#0f0f0f]" : "border-gray-700"}`}
+          >
+            <p className="text-blue-400 font-semibold text-sm">👤 Vendor Account</p>
+            <p className="text-gray-400 text-xs mt-1">
               List your services and manage bookings
             </p>
           </div>
