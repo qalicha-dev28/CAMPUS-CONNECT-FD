@@ -1,18 +1,25 @@
 // src/context/AuthContext.jsx
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+  // Load user from localStorage (persist B)
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem("user");
+    return saved
+      ? JSON.parse(saved)
+      : {
+          fullName: "John Foe",
+          email: "student@campus.ac",
+          role: "Student",
+        };
+  });
 
-  const login = (email, role) => {
-    const u = { email, role };
-    localStorage.setItem("user", JSON.stringify(u));
-    setUser(u);
-  };
+  // Persist to localStorage on change
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(user));
+  }, [user]);
 
   const logout = () => {
     localStorage.removeItem("user");
@@ -20,7 +27,7 @@ export function AuthProvider({ children }) {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, login, logout }}>
+    <AuthContext.Provider value={{ user, setUser, logout }}>
       {children}
     </AuthContext.Provider>
   );
