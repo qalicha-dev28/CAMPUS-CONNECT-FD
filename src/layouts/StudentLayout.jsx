@@ -1,80 +1,70 @@
 // src/layouts/StudentLayout.jsx
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { FiHome, FiFileText, FiUser, FiLogOut } from "react-icons/fi";
 import { useAuth } from "../context/AuthContext";
 
 export default function StudentLayout() {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
+  const { user, logout } = useAuth();
 
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
-    navigate("/");
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
   };
 
   return (
-    <div className="bg-[#0D0D0D] text-white flex min-h-screen">
+    <div className="flex">
       {/* Sidebar */}
-      <aside className="w-60 border-r border-gray-800 p-6 space-y-6">
-        <h2 className="text-xl font-bold mb-4">CampusConnect</h2>
+      <aside className="w-56 h-screen bg-black border-r border-gray-900 p-6 text-white">
+        <h1 className="text-xl font-bold text-neon mb-8">CampusConnect</h1>
 
-        <nav className="space-y-4 text-sm">
+        <nav className="flex flex-col gap-4">
           <NavLink
             to="/student/dashboard"
             className={({ isActive }) =>
-              `flex items-center gap-2 ${
-                isActive ? "text-lime-400" : "text-gray-400"
-              }`
+              `hover:text-neon ${isActive ? "text-neon" : ""}`
             }
           >
-            <FiHome /> Overview
+            Overview
           </NavLink>
 
           <NavLink
             to="/student/services"
             className={({ isActive }) =>
-              `flex items-center gap-2 ${
-                isActive ? "text-lime-400" : "text-gray-400"
-              }`
+              `hover:text-neon ${isActive ? "text-neon" : ""}`
             }
           >
-            <FiFileText /> Services
+            Services
           </NavLink>
 
           <NavLink
             to="/student/bookings"
             className={({ isActive }) =>
-              `flex items-center gap-2 ${
-                isActive ? "text-lime-400" : "text-gray-400"
-              }`
+              `hover:text-neon ${isActive ? "text-neon" : ""}`
             }
           >
-            <FiFileText /> Bookings
+            My Bookings
           </NavLink>
 
           <NavLink
             to="/student/profile"
             className={({ isActive }) =>
-              `flex items-center gap-2 ${
-                isActive ? "text-lime-400" : "text-gray-400"
-              }`
+              `hover:text-neon ${isActive ? "text-neon" : ""}`
             }
           >
-            <FiUser /> Profile
+            Profile
           </NavLink>
         </nav>
 
         <button
-          onClick={logout}
-          className="flex items-center gap-2 text-gray-400 hover:text-red-400 mt-10 text-sm"
+          onClick={handleLogout}
+          className="text-red-400 hover:text-red-300 absolute bottom-6"
         >
-          <FiLogOut /> Logout
+          Logout
         </button>
       </aside>
 
-      
-      <main className="flex-1 p-8">
+      {/* Main Content */}
+      <main className="flex-1 p-10 text-white">
         <Outlet />
       </main>
     </div>
