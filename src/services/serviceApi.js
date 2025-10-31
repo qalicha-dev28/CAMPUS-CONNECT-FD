@@ -11,6 +11,7 @@ export async function fetchServices() {
       reviews: 45,
       price: "$8.99",
       category: "Laundry",
+      description: "Fast turnaround, pickup + drop-off on campus."
     },
     {
       id: 2,
@@ -20,6 +21,7 @@ export async function fetchServices() {
       reviews: 78,
       price: "$0.10/page",
       category: "Printing",
+      description: "Affordable printing, scanning, and photocopying services."
     },
     {
       id: 3,
@@ -29,6 +31,7 @@ export async function fetchServices() {
       reviews: 32,
       price: "$25/hour",
       category: "Tutoring",
+      description: "Expert tutors available for academic support across multiple subjects."
     },
     {
       id: 4,
@@ -38,6 +41,7 @@ export async function fetchServices() {
       reviews: 2003,
       price: "$15/day",
       category: "Food",
+      description: "Healthy meals delivered anywhere on campus, with student discounts."
     },
     {
       id: 5,
@@ -47,7 +51,8 @@ export async function fetchServices() {
       reviews: 67,
       price: "$5/day",
       category: "Transport",
-    },
+      description: "Affordable environmentally-friendly bike rentals for fast campus mobility."
+    }
   ];
 }
 
@@ -75,19 +80,22 @@ export async function fetchMockBookings() {
       date: "2025-02-07",
       status: "completed",
     },
-     {
-      id: 1,
-      service: "Campus eATS",
-      vendor: "Food orders",
+    {
+      id: 4,
+      service: "Campus Meal Plan",
+      vendor: "Campus Dining",
       date: "2025-02-03",
       status: "completed",
     },
-     {
-      id: 1,
+    {
+      id: 5,
       service: "Eco Bike Rental",
-      vendor: "Transport",
+      vendor: "GreenRide",
       date: "2025-02-03",
       status: "confirmed",
     },
   ];
 }
+
+
+export {};
