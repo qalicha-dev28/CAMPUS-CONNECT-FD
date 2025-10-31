@@ -1,6 +1,6 @@
 // src/services/serviceApi.js
 
-/** ✅ Mock services list */
+/** Mock services list */
 export async function fetchServices() {
   return [
     {
@@ -52,33 +52,41 @@ export async function fetchServices() {
       price: "$5/day",
       category: "Transport",
       description: "Affordable environmentally-friendly bike rentals."
-    }
+    },
   ];
 }
 
-/** ✅ Mock bookings list */
-let mockBookings = [];
-
-export async function createMockBooking(service, vendor) {
-  const newBooking = {
-    id: mockBookings.length + 1,
-    service,
-    vendor,
-    date: new Date().toISOString().split("T")[0],
-    status: "confirmed",
-  };
-
-  mockBookings.push(newBooking);
-  return newBooking;
-}
-
+/** Mock bookings */
 export async function fetchMockBookings() {
-  return mockBookings;
+  return [
+    {
+      id: 1,
+      service: "Laundry Service",
+      vendor: "QuickWash Campus",
+      date: "2025-02-03",
+      status: "confirmed",
+    },
+    {
+      id: 2,
+      service: "24/7 Printing & Copy",
+      vendor: "CampusPrint Solutions",
+      date: "2025-02-05",
+      status: "pending",
+    },
+    {
+      id: 3,
+      service: "Math & Science Tutoring",
+      vendor: "TutorHub",
+      date: "2025-02-07",
+      status: "completed",
+    },
+  ];
 }
 
-/** ✅ Mock review storage */
+// ✅ Stored reviews (mock)
 let mockReviews = [];
 
+// ✅ Create review
 export async function createMockReview(service, rating, comment) {
   const newReview = {
     id: mockReviews.length + 1,
@@ -92,6 +100,7 @@ export async function createMockReview(service, rating, comment) {
   return newReview;
 }
 
+// ✅ Get reviews for a service
 export async function fetchReviewsByService(service) {
-  return mockReviews.filter(r => r.service === service);
+  return mockReviews.filter((r) => r.service === service);
 }
