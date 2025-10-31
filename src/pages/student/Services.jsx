@@ -1,83 +1,88 @@
+// src/pages/student/Services.jsx
 import { useEffect, useState } from "react";
 import { fetchServices } from "../../services/serviceApi";
-import { useNavigate } from "react-router-dom";
+import ServiceCard from "../../components/ServiceCard";
+import { motion } from "framer-motion";
 
 export default function Services() {
   const [services, setServices] = useState([]);
-  const [filter, setFilter] = useState("All");
-  const [query, setQuery] = useState("");
-  const navigate = useNavigate();
+  const [filtered, setFiltered] = useState([]);
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
-    fetchServices().then(setServices);
+    async function load() {
+      const s = await fetchServices();
+      setServices(s);
+      setFiltered(s);
+    }
+    load();
   }, []);
 
-  const filtered = services.filter((s) => {
-    return (
-      (filter === "All" || s.category === filter) &&
-      s.name.toLowerCase().includes(query.toLowerCase())
-    );
-  });
+  // filters everything
+  useEffect(() => {
+    let list = [...services];
+
+    if (activeCategory !== "All") {
+      list = list.filter((s) => s.category === activeCategory);
+    }
+
+    if (search.length > 0) {
+      list = list.filter(
+        (s) =>
+          s.name.toLowerCase().includes(search.toLowerCase()) ||
+          s.vendorName.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    setFiltered(list);
+  }, [activeCategory, search, services]);
+
+  const categories = ["All", "Laundry", "Food", "Transport", "Printing", "Tutoring"];
 
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mt-2">Browse Services</h1>
-      <p className="text-gray-400">Find and book campus services</p>
+    <div className="p-6 text-white space-y-6">
+      <h1 className="text-2xl font-semibold">Browse Services</h1>
 
       {/* Search */}
       <input
-        className="mt-4 w-full bg-gray-900 p-3 rounded border border-gray-800"
+        type="text"
         placeholder="Search services..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        className="w-full bg-[#1a1a1a] border border-gray-800 rounded-xl p-3 mb-4 focus:outline-none focus:border-lime-400"
       />
 
-      {/* Filters */}
-      <div className="mt-4 flex flex-wrap gap-2">
-        {["All", "Laundry", "Printing", "Tutoring", "Food", "Transport"].map(
-          (cat) => (
-            <button
-              key={cat}
-              onClick={() => setFilter(cat)}
-              className={`px-3 py-1 rounded ${
-                filter === cat ? "bg-neon text-black" : "bg-gray-800"
-              }`}
-            >
-              {cat}
-            </button>
-          )
-        )}
-      </div>
-
-      {/* ✅ Responsive Cards */}
-      <div className="mt-6 grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filtered.map((s) => (
-          <div
-            key={s.id}
-            className="bg-gray-900 p-4 rounded border border-gray-800"
+      {/* Category Tabs */}
+      <div className="flex flex-wrap gap-3">
+        {categories.map((cat) => (
+          <button
+            key={cat}
+            onClick={() => setActiveCategory(cat)}
+            className={`px-4 py-2 rounded-full border text-sm transition ${
+              activeCategory === cat
+                ? "bg-lime-400 text-black font-semibold"
+                : "border-gray-700 hover:border-gray-500"
+            }`}
           >
-            <span className="text-xs bg-gray-800 px-2 py-1 rounded">
-              {s.category}
-            </span>
-
-            <h2 className="mt-2 font-bold">{s.name}</h2>
-            <p className="text-gray-400 text-sm">{s.vendorName}</p>
-
-            <div className="mt-2 text-sm flex gap-4">
-              ⭐ {s.rating} ({s.reviews})
-            </div>
-
-            <p className="text-neon font-bold mt-2">{s.price}</p>
-
-            <button
-              onClick={() => navigate(`/student/services/${s.id}`)}
-              className="mt-4 w-full bg-neon text-black font-bold py-2 rounded"
-            >
-              View Details
-            </button>
-          </div>
+            {cat}
+          </button>
         ))}
       </div>
+
+      {/* Responsive Card Grid */}
+      <motion.div
+        layout
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 mt-4"
+      >
+        {filtered.map((s) => (
+          <ServiceCard key={s.id} service={s} />
+        ))}
+
+        {filtered.length === 0 && (
+          <p className="text-gray-500 text-sm">No services found.</p>
+        )}
+      </motion.div>
     </div>
   );
 }
