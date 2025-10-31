@@ -7,76 +7,93 @@ import { useAuth } from "../../context/AuthContext";
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { user, logout } = useAuth?.() || { user: null, logout: () => {} };
 
   useEffect(() => {
-    fetchMockBookings().then(setBookings);
+    async function load() {
+      const data = await fetchMockBookings();
+      setBookings(data);
+    }
+    load();
   }, []);
 
   return (
-    <div className="p-6">
-      {/* ✅ Top header */}
-      <div className="flex justify-between items-center mb-6">
-        <div>
-          <h2 className="text-xl font-semibold text-white">My Bookings</h2>
-          <p className="text-gray-400 text-sm">View and manage your bookings</p>
-        </div>
+    <div className="p-6 text-white">
+      {/* Top mini bar: CampusConnect | user email | Profile | Logout */}
+      <div className="flex items-center justify-between mb-6">
+        <div className="text-sm text-gray-400">CampusConnect</div>
 
-        <div className="flex items-center gap-4">
-          <span className="text-gray-300 text-sm">{user?.email}</span>
+        <div className="flex items-center gap-4 text-sm">
+          <span className="text-gray-300">
+            {user?.email || "student@campus.edu"}
+          </span>
           <button
             onClick={() => navigate("/student/profile")}
-            className="text-sm hover:text-white"
+            className="text-gray-300 hover:text-white"
           >
             Profile
           </button>
           <button
             onClick={logout}
-            className="bg-lime-400 text-black px-3 py-1 rounded text-sm"
+            className="px-3 py-1 rounded bg-lime-400 text-black font-semibold text-xs hover:opacity-90"
           >
             Logout
           </button>
         </div>
       </div>
 
-      {/* ✅ Bookings list */}
-      <div className="space-y-4">
+      {/* Tabs row like Figma */}
+      <div className="flex gap-3 mb-4">
+        <button
+          onClick={() => navigate("/student/services")}
+          className="px-3 py-1 rounded bg-gray-800 hover:bg-gray-700 text-sm"
+        >
+          Browse Services
+        </button>
+
+        <button className="px-3 py-1 rounded bg-lime-400 text-black font-semibold text-sm">
+          My Bookings
+        </button>
+      </div>
+
+      <h2 className="text-2xl font-bold">My Bookings</h2>
+      <p className="text-sm text-gray-400 mb-6">View and manage your bookings</p>
+
+      <div className="space-y-4 w-full max-w-4xl">
         {bookings.map((b) => (
           <div
             key={b.id}
-            className="bg-[#0d1016] border border-black rounded-lg p-4 flex justify-between items-center"
+            className="bg-[#111111] border border-gray-800 rounded-lg p-4 flex justify-between"
           >
+            {/* Left details (service name, date, vendor) */}
             <div>
-              <h4 className="font-semibold text-white">{b.service}</h4>
-              <p className="text-xs text-gray-400">{b.vendor}</p>
-
-              {/* Meta details */}
-              <div className="mt-2 space-y-1 text-xs text-gray-300">
-                <p>📅 {b.date}</p>
-                <p>🏫 {b.location ?? "N/A"}</p>
-                <p>💲 {b.cost ?? "$5.00"}</p>
-              </div>
+              <p className="font-semibold">{b.service}</p>
+              <p className="text-xs text-gray-300">{b.date}</p>
+              <p className="text-xs text-gray-300">{b.vendor || "N/A"}</p>
             </div>
 
-            <div className="flex flex-col items-end gap-2">
-              {/* booking status badge */}
+            {/* Right side: status chip + optional Leave Review */}
+            <div className="flex flex-col items-end justify-between">
               <span
-                className={`text-xs px-2 py-1 rounded ${
+                className={`px-2 py-1 text-xs rounded ${
                   b.status === "confirmed"
-                    ? "bg-lime-400 text-black"
+                    ? "bg-lime-500 text-black"
                     : b.status === "pending"
                     ? "bg-orange-500 text-black"
-                    : "bg-gray-700 text-gray-300"
+                    : "bg-green-600 text-white"
                 }`}
               >
                 {b.status}
               </span>
 
-              {/* Leave Review */}
               {b.status === "completed" && (
                 <button
-                  onClick={() => navigate(`/student/review/${b.service}`)}
-                  className="text-xs bg-gray-800 px-2 py-1 rounded hover:bg-gray-700"
+                  onClick={() =>
+                    navigate(
+                      `/student/review/${encodeURIComponent(b.service)}`
+                    )
+                  }
+                  className="text-xs bg-gray-800 px-2 py-1 rounded hover:bg-gray-700 mt-2"
                 >
                   Leave a Review
                 </button>

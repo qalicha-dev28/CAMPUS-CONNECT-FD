@@ -1,54 +1,75 @@
-// src/pages/student/LeaveReview.jsx
-
-import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { createMockReview } from "../../services/serviceApi";
+import { useEffect, useState } from "react";
+import { createMockReview, fetchReviewsByService } from "../../services/reviewsApi";
 
 export default function LeaveReview() {
-  const { service } = useParams();
+  const { serviceName } = useParams();
   const navigate = useNavigate();
 
-  const [rating, setRating] = useState(5);
+  const [rating, setRating] = useState("");
   const [comment, setComment] = useState("");
+  const [reviews, setReviews] = useState([]);
 
-  const submitReview = async () => {
-    await createMockReview(service, rating, comment);
-    alert("✅ Review submitted successfully!");
+  useEffect(() => {
+    fetchReviews();
+  }, []);
+
+  async function fetchReviews() {
+    const res = await fetchReviewsByService(serviceName);
+    setReviews(res);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    await createMockReview(serviceName, rating, comment);
+
+    alert("✅ Review submitted!");
     navigate("/student/bookings");
-  };
+  }
 
   return (
-    <div className="p-6 text-white">
-      <h1 className="text-2xl mb-4">Leave a Review</h1>
+    <div className="text-white p-6">
+      <h2 className="text-2xl font-bold mb-4">Leave a Review for {serviceName}</h2>
 
-      <p className="mb-3 text-gray-400">Service: {service}</p>
-
-      <label className="block mb-2">
-        Rating:
+      <form onSubmit={handleSubmit} className="space-y-3 max-w-md">
         <select
           value={rating}
-          onChange={(e) => setRating(Number(e.target.value))}
-          className="bg-gray-800 ml-2 p-2 rounded"
+          onChange={(e) => setRating(e.target.value)}
+          required
+          className="w-full bg-gray-800 p-2 rounded"
         >
-          {[5, 4, 3, 2, 1].map((r) => (
-            <option key={r} value={r}>{r} ⭐</option>
-          ))}
+          <option value="">Select rating</option>
+          <option value="⭐">⭐</option>
+          <option value="⭐⭐">⭐⭐</option>
+          <option value="⭐⭐⭐">⭐⭐⭐</option>
+          <option value="⭐⭐⭐⭐">⭐⭐⭐⭐</option>
+          <option value="⭐⭐⭐⭐⭐">⭐⭐⭐⭐⭐</option>
         </select>
-      </label>
 
-      <textarea
-        className="bg-gray-800 p-3 w-full rounded mb-4"
-        value={comment}
-        onChange={(e) => setComment(e.target.value)}
-        placeholder="Write your comment..."
-      />
+        <textarea
+          placeholder="Write a comment..."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          required
+          className="w-full bg-gray-800 p-2 h-24 rounded"
+        />
 
-      <button
-        onClick={submitReview}
-        className="bg-neon text-black px-4 py-2 rounded hover:opacity-80"
-      >
-        Submit Review
-      </button>
+        <button className="bg-lime-400 text-black px-4 py-2 rounded">
+          Submit Review
+        </button>
+      </form>
+
+      <h3 className="mt-6 text-xl font-bold">Existing Reviews:</h3>
+      <ul className="mt-2 space-y-2">
+        {reviews.map((r) => (
+          <li
+            key={r.id}
+            className="bg-gray-800 p-2 rounded text-sm"
+          >
+            <strong>{r.rating}</strong> - {r.comment}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
