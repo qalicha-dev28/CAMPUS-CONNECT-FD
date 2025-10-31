@@ -1,110 +1,134 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/AuthContext"; 
 
 export default function SignupPage() {
-  const navigate = useNavigate();
   const { setUser } = useAuth();
+  const navigate = useNavigate();
 
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("student");
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "student",
+  });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleRoleSelect = (role) => {
+    setForm({ ...form, role });
+  };
+
+  const handleSignup = (e) => {
     e.preventDefault();
-
-    const newUser = { fullName, email, role };
-    localStorage.setItem("user", JSON.stringify(newUser));
-    setUser(newUser);
-
-    if (role === "student") navigate("/student/dashboard");
-    if (role === "vendor") navigate("/vendor/dashboard");
+    setUser(form); // mock
+    navigate("/student/dashboard");
   };
 
   return (
-    <div className="min-h-screen bg-black text-white px-16 pt-10">
-      <Link to="/" className="text-gray-400 text-sm mb-6 inline-block">
+    <div className="min-h-screen bg-neutral-950 text-white px-14 py-10 flex flex-col">
+      {/* Back */}
+      <Link to="/" className="text-gray-400 hover:text-white text-sm mb-4">
         ← Back
       </Link>
 
-      <h1 className="text-2xl font-bold mb-1">CampusConnect</h1>
+      {/* Top Label */}
+      <h1 className="text-lg font-semibold mb-6">CampusConnect</h1>
 
-      <div className="flex justify-start gap-24 mt-10">
-        {/* FORM SECTION */}
-        <form onSubmit={handleSubmit} className="w-[380px]">
-          <h2 className="text-3xl font-bold mb-2">Create Account</h2>
+      <div className="flex gap-20">
+        {/* LEFT COLUMN */}
+        <div>
+          <h2 className="text-3xl font-semibold mb-2">Create Account</h2>
           <p className="text-gray-400 text-sm mb-6">
             Join thousands of students and vendors on campus
           </p>
 
-          <label className="text-sm text-gray-300">Full Name</label>
-          <input
-            className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 mb-4"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
+          <form onSubmit={handleSignup} className="space-y-5 w-[520px]">
+            <div>
+              <label className="text-sm text-gray-300">Full Name</label>
+              <input
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className="w-full bg-neutral-900 rounded-md px-3 py-2 mt-1 outline-none border border-neutral-800 focus:border-lime-400"
+              />
+            </div>
 
-          <label className="text-sm text-gray-300">Email Address</label>
-          <input
-            className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 mb-4"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+            <div>
+              <label className="text-sm text-gray-300">Email Address</label>
+              <input
+                name="email"
+                type="email"
+                value={form.email}
+                onChange={handleChange}
+                className="w-full bg-neutral-900 rounded-md px-3 py-2 mt-1 outline-none border border-neutral-800 focus:border-lime-400"
+              />
+            </div>
 
-          <label className="text-sm text-gray-300">Password</label>
-          <input
-            type="password"
-            className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 mb-4"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+            <div>
+              <label className="text-sm text-gray-300">Password</label>
+              <input
+                name="password"
+                type="password"
+                value={form.password}
+                onChange={handleChange}
+                className="w-full bg-neutral-900 rounded-md px-3 py-2 mt-1 outline-none border border-neutral-800 focus:border-lime-400"
+              />
+            </div>
 
-          <label className="text-sm text-gray-300">I am a...</label>
-          <select
-            className="w-full bg-[#111] border border-gray-700 rounded px-3 py-2 mb-6"
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-          >
-            <option value="student">Student</option>
-            <option value="vendor">Vendor</option>
-          </select>
+            <div>
+              <label className="text-sm text-gray-300">I am a...</label>
+              <select
+                name="role"
+                value={form.role}
+                onChange={handleChange}
+                className="w-full bg-neutral-900 rounded-md px-3 py-2 mt-1 outline-none border border-neutral-800 focus:border-lime-400"
+              >
+                <option value="student">Student</option>
+                <option value="vendor">Vendor</option>
+              </select>
+            </div>
 
-          <button className="w-full bg-lime-400 hover:bg-lime-500 text-black font-semibold py-2 rounded">
-            Create Account
-          </button>
+            <button className="w-full bg-lime-400 py-2 rounded-md text-black font-semibold hover:brightness-105">
+              Create Account
+            </button>
+          </form>
 
-          <p className="text-gray-400 text-sm mt-3">
-            Already have an account?
-            <Link className="text-lime-400 ml-1" to="/login">
+          <p className="text-sm text-gray-300 mt-4">
+            Already have an account?{" "}
+            <Link to="/login" className="text-lime-400">
               Login
             </Link>
           </p>
-        </form>
+        </div>
 
-        {/* ACCOUNT TYPE SECTION */}
-        <div>
-          <h3 className="text-lg font-bold mb-1">Get Started Today</h3>
+        {/* RIGHT COLUMN */}
+        <div className="mt-6">
+          <h3 className="font-semibold text-lg">Get Started Today</h3>
           <p className="text-gray-400 text-sm mb-4">Choose your account type:</p>
 
+          {/* Student Box */}
           <div
-            onClick={() => setRole("student")}
-            className={`cursor-pointer border rounded-md p-3 w-[260px] mb-3 transition 
-              ${role === "student" ? "border-lime-400 bg-[#0f0f0f]" : "border-gray-700"}`}
+            onClick={() => handleRoleSelect("student")}
+            className={`cursor-pointer border rounded-lg w-[300px] p-4 mb-4 
+            ${form.role === "student" ? "border-lime-400 bg-neutral-900/60" : "border-neutral-700 bg-neutral-900"}`}
           >
-            <p className="text-lime-300 font-semibold text-sm">✦ Student Account</p>
-            <p className="text-gray-400 text-xs mt-1">
+            <p className="text-lime-400 font-semibold">✦ Student Account</p>
+            <p className="text-gray-400 text-sm mt-1">
               Browse services, make bookings, and leave reviews
             </p>
           </div>
 
+          {/* Vendor Box */}
           <div
-            onClick={() => setRole("vendor")}
-            className={`cursor-pointer border rounded-md p-3 w-[260px] transition
-              ${role === "vendor" ? "border-lime-400 bg-[#0f0f0f]" : "border-gray-700"}`}
+            onClick={() => handleRoleSelect("vendor")}
+            className={`cursor-pointer border rounded-lg w-[300px] p-4
+            ${form.role === "vendor" ? "border-lime-400 bg-neutral-900/60" : "border-neutral-700 bg-neutral-900"}`}
           >
-            <p className="text-blue-400 font-semibold text-sm">👤 Vendor Account</p>
-            <p className="text-gray-400 text-xs mt-1">
+            <p className="text-lime-400 font-semibold">👤 Vendor Account</p>
+            <p className="text-gray-400 text-sm mt-1">
               List your services and manage bookings
             </p>
           </div>

@@ -1,32 +1,33 @@
 // src/App.jsx
-import { Routes, Route } from "react-router-dom";
-
+import { Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-
+import LoginPage from "./pages/LoginPage";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-// Student pages
-import StudentLayout from "./pages/student/StudentLayout";
+import StudentLayout from "./layouts/StudentLayout";
 import Overview from "./pages/student/Overview";
 import Services from "./pages/student/Services";
+import ServiceDetail from "./pages/student/ServiceDetail";
 import Bookings from "./pages/student/Bookings";
 import Profile from "./pages/student/Profile";
 
-export default function App() {
+function App() {
   return (
     <Routes>
-      {/* Public pages */}
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/signup" element={<SignupPage />} />
 
-      {/* Protected student routes */}
+      {/* ✅ Landing page restored */}
+      <Route path="/" element={<LandingPage />} />
+
+      {/* Public pages */}
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/login" element={<LoginPage />} />
+
+      {/* Protected student area */}
       <Route element={<ProtectedRoute role="student" />}>
         <Route path="/student" element={<StudentLayout />}>
           <Route path="dashboard" element={<Overview />} />
           <Route path="services" element={<Services />} />
+          <Route path="services/:id" element={<ServiceDetail />} />
           <Route path="bookings" element={<Bookings />} />
           <Route path="profile" element={<Profile />} />
         </Route>
@@ -34,3 +35,5 @@ export default function App() {
     </Routes>
   );
 }
+
+export default App;

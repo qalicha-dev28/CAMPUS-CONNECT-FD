@@ -52,7 +52,7 @@ export default function LandingPage() {
                 Get Started
               </Link>
 
-              <Link to="/login" className="text-gray-300 hover:text-white">
+              <Link to="/services" className="text-gray-300 hover:text-white">
                 Browse Services →
               </Link>
             </div>

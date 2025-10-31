@@ -5,3 +5,16 @@
 body {
   @apply bg-dark text-white font-sans;
 }
+
+/* ===== Neon Theme Variables ===== */
+:root {
+  --neon: #b8ff23;
+}
+
+.text-neon {
+  color: var(--neon);
+}
+
+.bg-neon {
+  background-color: var(--neon);
+}
