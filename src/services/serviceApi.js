@@ -1,6 +1,6 @@
 // src/services/serviceApi.js
 
-/** Mock services list */
+/** ✅ Mock services list */
 export async function fetchServices() {
   return [
     {
@@ -31,7 +31,7 @@ export async function fetchServices() {
       reviews: 32,
       price: "$25/hour",
       category: "Tutoring",
-      description: "Expert tutors available for academic support across multiple subjects."
+      description: "Expert tutors available for academic support."
     },
     {
       id: 4,
@@ -41,7 +41,7 @@ export async function fetchServices() {
       reviews: 2003,
       price: "$15/day",
       category: "Food",
-      description: "Healthy meals delivered anywhere on campus, with student discounts."
+      description: "Healthy meals delivered anywhere on campus."
     },
     {
       id: 5,
@@ -51,51 +51,47 @@ export async function fetchServices() {
       reviews: 67,
       price: "$5/day",
       category: "Transport",
-      description: "Affordable environmentally-friendly bike rentals for fast campus mobility."
+      description: "Affordable environmentally-friendly bike rentals."
     }
   ];
 }
 
-/** Mock bookings list */
-export async function fetchMockBookings() {
-  return [
-    {
-      id: 1,
-      service: "Laundry Service",
-      vendor: "QuickWash Campus",
-      date: "2025-02-03",
-      status: "confirmed",
-    },
-    {
-      id: 2,
-      service: "24/7 Printing & Copy",
-      vendor: "CampusPrint Solutions",
-      date: "2025-02-05",
-      status: "pending",
-    },
-    {
-      id: 3,
-      service: "Math & Science Tutoring",
-      vendor: "TutorHub",
-      date: "2025-02-07",
-      status: "completed",
-    },
-    {
-      id: 4,
-      service: "Campus Meal Plan",
-      vendor: "Campus Dining",
-      date: "2025-02-03",
-      status: "completed",
-    },
-    {
-      id: 5,
-      service: "Eco Bike Rental",
-      vendor: "GreenRide",
-      date: "2025-02-03",
-      status: "confirmed",
-    },
-  ];
+/** ✅ Mock bookings list */
+let mockBookings = [];
+
+export async function createMockBooking(service, vendor) {
+  const newBooking = {
+    id: mockBookings.length + 1,
+    service,
+    vendor,
+    date: new Date().toISOString().split("T")[0],
+    status: "confirmed",
+  };
+
+  mockBookings.push(newBooking);
+  return newBooking;
 }
 
+export async function fetchMockBookings() {
+  return mockBookings;
+}
 
-export {};
+/** ✅ Mock review storage */
+let mockReviews = [];
+
+export async function createMockReview(service, rating, comment) {
+  const newReview = {
+    id: mockReviews.length + 1,
+    service,
+    rating,
+    comment,
+    date: new Date().toISOString().split("T")[0],
+  };
+
+  mockReviews.push(newReview);
+  return newReview;
+}
+
+export async function fetchReviewsByService(service) {
+  return mockReviews.filter(r => r.service === service);
+}

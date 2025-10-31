@@ -1,69 +1,115 @@
-// src/pages/student/ServiceDetail.jsx
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { fetchServices } from "../../services/serviceApi";
-import { motion } from "framer-motion";
-import { FiArrowLeft } from "react-icons/fi";
+import { fetchMockBookings, createMockReview } from "../../services/serviceApi";
 
-export default function ServiceDetail() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [service, setService] = useState(null);
+export default function Bookings() {
+  const [bookings, setBookings] = useState([]);
+  const [showReview, setShowReview] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
+  const [rating, setRating] = useState(5);
+  const [comment, setComment] = useState("");
 
   useEffect(() => {
-    async function load() {
-      const data = await fetchServices();
-      const found = data.find((s) => s.id === Number(id));
-      setService(found);
-    }
-    load();
-  }, [id]);
+    fetchMockBookings().then(setBookings);
+  }, []);
 
-  if (!service) return <p className="text-gray-500 p-6">Loading…</p>;
+  const openReviewModal = (service) => {
+    setSelectedService(service);
+    setShowReview(true);
+  };
+
+  const submitReview = async () => {
+    await createMockReview(selectedService, rating, comment);
+    alert("✅ Review submitted!");
+    setShowReview(false);
+    setRating(5);
+    setComment("");
+  };
 
   return (
-    <div className="p-6 text-white space-y-6">
-      {/* Back button */}
-      <button
-        onClick={() => navigate(-1)}
-        className="flex items-center gap-2 text-gray-400 hover:text-white transition"
-      >
-        <FiArrowLeft /> Back
-      </button>
+    <div className="text-white">
+      <h2 className="text-2xl font-bold mb-4">My Bookings</h2>
 
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-6"
-      >
-        <h1 className="text-2xl font-semibold">{service.name}</h1>
-        <p className="text-gray-500 text-sm">{service.vendorName}</p>
+      <div className="space-y-4">
+        {bookings.map((b) => (
+          <div
+            key={b.id}
+            className="bg-neutral-900 rounded p-4 flex justify-between items-center"
+          >
+            <div>
+              <p className="text-lg font-semibold">{b.service}</p>
+              <p className="text-sm text-gray-400">{b.date}</p>
+              <p className="text-green-400">${b.price || ""}</p>
+            </div>
 
-        <div className="mt-3 flex gap-6 text-sm">
-          <span>{service.rating}⭐ Rating</span>
-          <span>{service.reviews} Reviews</span>
-          <span className="text-lime-400">{service.price}</span>
+            <div className="flex items-center space-x-3">
+              <span
+                className={`px-3 py-1 rounded text-sm ${
+                  b.status === "completed"
+                    ? "bg-green-600"
+                    : b.status === "pending"
+                    ? "bg-yellow-600"
+                    : "bg-blue-600"
+                }`}
+              >
+                {b.status}
+              </span>
+
+              {b.status === "completed" && (
+                <button
+                  onClick={() => openReviewModal(b.service)}
+                  className="text-black bg-lime-400 px-3 py-1 rounded hover:opacity-80"
+                >
+                  Leave Review
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ✅ Review Modal */}
+      {showReview && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center">
+          <div className="bg-neutral-900 p-6 rounded w-80">
+            <h3 className="font-bold text-xl mb-3">Review {selectedService}</h3>
+
+            <label className="text-sm text-gray-300">Rating</label>
+            <select
+              className="w-full bg-neutral-800 p-2 rounded mb-3"
+              value={rating}
+              onChange={(e) => setRating(e.target.value)}
+            >
+              {[1,2,3,4,5].map(n => (
+                <option key={n} value={n}>{n} ⭐</option>
+              ))}
+            </select>
+
+            <label className="text-sm text-gray-300">Comment</label>
+            <textarea
+              className="w-full bg-neutral-800 p-2 rounded mb-4"
+              rows="3"
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Write your review…"
+            />
+
+            <div className="flex justify-end space-x-2">
+              <button
+                className="bg-gray-600 px-3 py-1 rounded"
+                onClick={() => setShowReview(false)}
+              >
+                Cancel
+              </button>
+              <button
+                className="bg-lime-400 text-black px-3 py-1 rounded"
+                onClick={submitReview}
+              >
+                Submit ✅
+              </button>
+            </div>
+          </div>
         </div>
-
-        {/* Description */}
-        <p className="mt-4 text-gray-300 text-sm leading-relaxed">
-          {service.description ||
-            "This campus service provides convenience, reliability, and fast delivery within campus grounds."}
-        </p>
-
-        {/* Category Tag */}
-        <span className="inline-block mt-4 px-3 py-1 bg-lime-400 text-black rounded-full text-xs font-medium">
-          {service.category}
-        </span>
-
-        {/* Booking CTA */}
-        <button
-          onClick={() => alert("Booking modal coming soon ✅")}
-          className="mt-6 bg-lime-400 text-black font-medium px-5 py-2 rounded-md hover:opacity-90 transition"
-        >
-          Book Service
-        </button>
-      </motion.div>
+      )}
     </div>
   );
 }
