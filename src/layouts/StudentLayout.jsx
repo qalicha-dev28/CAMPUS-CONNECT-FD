@@ -73,7 +73,7 @@ export default function StudentLayout() {
         </button>
       </aside>
 
-      {/* Main content — THIS WAS MISSING! */}
+      
       <main className="flex-1 p-8">
         <Outlet />
       </main>
