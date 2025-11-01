@@ -1,10 +1,13 @@
 // src/pages/admin/ManageServices.jsx
 import { useEffect, useState } from "react";
-import { fetchServices } from "../../services/serviceApi";
+import { fetchServices, createService, updateService, deleteService } from "../../services/serviceApi";
+import ServiceModal from "../../components/modals/ServiceModal";
 import { motion } from "framer-motion";
 
 export default function ManageServices() {
   const [services, setServices] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingService, setEditingService] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -13,6 +16,42 @@ export default function ManageServices() {
     }
     load();
   }, []);
+
+  const handleAddService = () => {
+    setEditingService(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditService = (service) => {
+    setEditingService(service);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteService = async (serviceId) => {
+    if (window.confirm("Are you sure you want to delete this service?")) {
+      try {
+        await deleteService(serviceId);
+        const updatedServices = await fetchServices();
+        setServices(updatedServices);
+      } catch {
+        alert("Failed to delete service");
+      }
+    }
+  };
+
+  const handleSaveService = async (serviceData) => {
+    try {
+      if (editingService) {
+        await updateService(editingService.id, serviceData);
+      } else {
+        await createService(serviceData);
+      }
+      const updatedServices = await fetchServices();
+      setServices(updatedServices);
+    } catch {
+      alert("Failed to save service");
+    }
+  };
 
   return (
     <div className="bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0f0f0f] min-h-screen w-full flex justify-center relative overflow-hidden">
@@ -147,6 +186,7 @@ export default function ManageServices() {
           className="mb-8 flex justify-center"
         >
           <motion.button
+            onClick={handleAddService}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="bg-lime-400 text-black font-semibold py-3 px-8 rounded-xl hover:bg-lime-300 transition-modern shadow-medium hover:shadow-lime-400/25 flex items-center gap-2"
@@ -207,6 +247,7 @@ export default function ManageServices() {
 
                   <div className="flex gap-2">
                     <motion.button
+                      onClick={() => handleEditService(service)}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-modern"
@@ -214,6 +255,7 @@ export default function ManageServices() {
                       Edit
                     </motion.button>
                     <motion.button
+                      onClick={() => handleDeleteService(service.id)}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       className="flex-1 bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded-lg text-sm font-medium transition-modern"
@@ -249,6 +291,14 @@ export default function ManageServices() {
             </p>
           </motion.div>
         )}
+
+        {/* Service Modal */}
+        <ServiceModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          service={editingService}
+          onSave={handleSaveService}
+        />
       </div>
     </div>
   );
