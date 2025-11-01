@@ -10,6 +10,7 @@ import Bookings from "./pages/student/Bookings";
 import ServiceDetail from "./pages/student/ServiceDetail";
 import LeaveReview from "./pages/student/LeaveReview";
 import MyProfile from "./pages/student/MyProfile";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -28,6 +29,10 @@ export default function App() {
           <Route path="profile" element={<MyProfile />} />
           <Route path="review/:serviceName" element={<LeaveReview />} />
         </Route>
+      </Route>
+
+      <Route element={<ProtectedRoute role="admin" />}>
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
       </Route>
     </Routes>
   );
