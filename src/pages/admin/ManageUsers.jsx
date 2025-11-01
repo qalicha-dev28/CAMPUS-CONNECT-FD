@@ -1,15 +1,57 @@
 // src/pages/admin/ManageUsers.jsx
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { fetchUsers, createUser, updateUser, deleteUser } from "../../services/serviceApi";
+import UserModal from "../../components/modals/UserModal";
 import { motion } from "framer-motion";
 
 export default function ManageUsers() {
-  const [users] = useState([
-    { id: 1, name: "John Doe", email: "john.doe@campus.edu", role: "Student", status: "Active", joinDate: "2024-01-15" },
-    { id: 2, name: "Jane Smith", email: "jane.smith@campus.edu", role: "Student", status: "Active", joinDate: "2024-02-20" },
-    { id: 3, name: "Mike Johnson", email: "mike.johnson@campus.edu", role: "Student", status: "Inactive", joinDate: "2024-03-10" },
-    { id: 4, name: "Sarah Wilson", email: "sarah.wilson@campus.edu", role: "Student", status: "Active", joinDate: "2024-01-05" },
-    { id: 5, name: "Admin User", email: "admin@campus.edu", role: "Admin", status: "Active", joinDate: "2023-12-01" },
-  ]);
+  const [users, setUsers] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+
+  useEffect(() => {
+    async function load() {
+      const u = await fetchUsers();
+      setUsers(u);
+    }
+    load();
+  }, []);
+
+  const handleAddUser = () => {
+    setEditingUser(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEditUser = (user) => {
+    setEditingUser(user);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteUser = async (userId) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      try {
+        await deleteUser(userId);
+        const updatedUsers = await fetchUsers();
+        setUsers(updatedUsers);
+      } catch {
+        alert("Failed to delete user");
+      }
+    }
+  };
+
+  const handleSaveUser = async (userData) => {
+    try {
+      if (editingUser) {
+        await updateUser(editingUser.id, userData);
+      } else {
+        await createUser(userData);
+      }
+      const updatedUsers = await fetchUsers();
+      setUsers(updatedUsers);
+    } catch {
+      alert("Failed to save user");
+    }
+  };
 
   return (
     <div className="bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0f0f0f] min-h-screen w-full flex justify-center relative overflow-hidden">
@@ -136,6 +178,26 @@ export default function ManageUsers() {
           </motion.p>
         </motion.div>
 
+        {/* Add User Button */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-8 flex justify-center"
+        >
+          <motion.button
+            onClick={handleAddUser}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-lime-400 text-black font-semibold py-3 px-8 rounded-xl hover:bg-lime-300 transition-modern shadow-medium hover:shadow-lime-400/25 flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+            </svg>
+            Add New User
+          </motion.button>
+        </motion.div>
+
         {/* Stats Cards */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -256,6 +318,7 @@ export default function ManageUsers() {
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                       <div className="flex gap-2">
                         <motion.button
+                          onClick={() => handleEditUser(user)}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           className="text-lime-400 hover:text-lime-300 transition-colors"
@@ -263,6 +326,7 @@ export default function ManageUsers() {
                           Edit
                         </motion.button>
                         <motion.button
+                          onClick={() => handleDeleteUser(user.id)}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           className="text-red-400 hover:text-red-300 transition-colors"
@@ -277,6 +341,14 @@ export default function ManageUsers() {
             </table>
           </div>
         </motion.div>
+
+        {/* User Modal */}
+        <UserModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          user={editingUser}
+          onSave={handleSaveUser}
+        />
       </div>
     </div>
   );
