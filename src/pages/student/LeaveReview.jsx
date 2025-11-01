@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { createMockReview, fetchReviewsByService } from "../../services/reviewsApi";
 
 export default function LeaveReview() {
@@ -10,14 +10,14 @@ export default function LeaveReview() {
   const [comment, setComment] = useState("");
   const [reviews, setReviews] = useState([]);
 
-  useEffect(() => {
-    fetchReviews();
-  }, []);
-
-  async function fetchReviews() {
+  const fetchReviews = useCallback(async () => {
     const res = await fetchReviewsByService(serviceName);
     setReviews(res);
-  }
+  }, [serviceName]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
 
   async function handleSubmit(e) {
     e.preventDefault();
