@@ -15,8 +15,9 @@ export default function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setUser({ ...form, role: "student" });
-    navigate("/student/dashboard");
+    const role = form.email === "admin@campus.edu" ? "admin" : "student";
+    setUser({ ...form, role });
+    navigate(role === "admin" ? "/admin/dashboard" : "/student/dashboard");
   };
 
   return (
