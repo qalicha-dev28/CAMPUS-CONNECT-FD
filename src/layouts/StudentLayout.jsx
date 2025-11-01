@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContext";
 
 export default function StudentLayout() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = () => {
     logout();
