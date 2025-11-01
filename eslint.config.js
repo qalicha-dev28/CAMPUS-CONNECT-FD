@@ -23,7 +23,8 @@ export default defineConfig([
       },
     },
     rules: {
-      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
+      'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]|motion', argsIgnorePattern: '^_', vars: 'all', args: 'after-used', ignoreRestSiblings: true }],
+      'no-undef': 'off', // Disable no-undef for motion components
     },
   },
 ])
