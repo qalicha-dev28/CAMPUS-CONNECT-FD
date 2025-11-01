@@ -11,6 +11,9 @@ import ServiceDetail from "./pages/student/ServiceDetail";
 import LeaveReview from "./pages/student/LeaveReview";
 import MyProfile from "./pages/student/MyProfile";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import ManageServices from "./pages/admin/ManageServices";
+import ManageUsers from "./pages/admin/ManageUsers";
+import ViewReports from "./pages/admin/ViewReports";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -33,6 +36,9 @@ export default function App() {
 
       <Route element={<ProtectedRoute role="admin" />}>
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/services" element={<ManageServices />} />
+        <Route path="/admin/users" element={<ManageUsers />} />
+        <Route path="/admin/reports" element={<ViewReports />} />
       </Route>
     </Routes>
   );
