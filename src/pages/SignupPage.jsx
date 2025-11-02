@@ -108,7 +108,7 @@ export default function SignupPage() {
           >
             <h2 className="text-4xl lg:text-5xl font-bold mb-4 leading-tight">Create Account</h2>
             <p className="text-gray-400 text-base lg:text-lg mb-8 leading-relaxed">
-              Join thousands of students and vendors on campus
+              Join thousands of students on campus
             </p>
 
             <form onSubmit={handleSignup} className="space-y-6 w-full lg:w-[520px]">
@@ -156,7 +156,6 @@ export default function SignupPage() {
                   className="w-full bg-neutral-800 rounded-xl px-4 py-3 outline-none border border-neutral-700 focus:border-lime-400 focus:ring-2 focus:ring-lime-400/20 transition-modern text-base hover:bg-neutral-700/50"
                 >
                   <option value="student">Student</option>
-                  <option value="vendor">Vendor</option>
                 </select>
               </div>
 
@@ -212,16 +211,16 @@ export default function SignupPage() {
             <motion.div
               whileHover={{ scale: 1.02, y: -5 }}
               whileTap={{ scale: 0.98 }}
-              onClick={() => handleRoleSelect("vendor")}
+              onClick={() => handleRoleSelect("student")}
               className={`cursor-pointer border-2 rounded-xl w-full lg:w-[320px] p-6 transition-modern hover:shadow-medium ${
-                form.role === "vendor"
+                form.role === "student"
                   ? "border-lime-400 bg-lime-400/10 shadow-lime-400/20"
                   : "border-neutral-700 bg-neutral-900/60 hover:border-neutral-600"
               }`}
             >
               <div className="flex items-center mb-3">
-                <div className={`w-3 h-3 rounded-full mr-3 ${form.role === "vendor" ? "bg-lime-400" : "bg-gray-500"}`}></div>
-                <p className="text-lime-400 font-semibold text-lg">Vendor Account</p>
+                <div className={`w-3 h-3 rounded-full mr-3 ${form.role === "student" ? "bg-lime-400" : "bg-gray-500"}`}></div>
+                <p className="text-lime-400 font-semibold text-lg">Student Account</p>
               </div>
               <p className="text-gray-400 text-sm leading-relaxed">
                 List your services and manage bookings
