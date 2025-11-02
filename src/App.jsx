@@ -17,6 +17,8 @@ import ViewReports from "./pages/admin/ViewReports";
 import VendorDashboard from "./pages/vendor/VendorDashboard";
 import ViewBookings from "./pages/vendor/ViewBookings";
 import RevenueReport from "./pages/vendor/RevenueReport";
+import VendorManageServices from "./pages/vendor/ManageServices";
+import AddService from "./pages/vendor/AddService";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -48,6 +50,8 @@ export default function App() {
         <Route path="/vendor/dashboard" element={<VendorDashboard />} />
         <Route path="/vendor/bookings" element={<ViewBookings />} />
         <Route path="/vendor/revenue" element={<RevenueReport />} />
+        <Route path="/vendor/services" element={<VendorManageServices />} />
+        <Route path="/vendor/add-service" element={<AddService />} />
       </Route>
     </Routes>
   );
