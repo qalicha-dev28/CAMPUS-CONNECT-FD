@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const { setUser } = useAuth();
 
   const [form, setForm] = useState({ email: "", password: "" });
 
@@ -15,20 +13,8 @@ export default function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    let role = "student";
-    if (form.email === "admin@campus.edu") {
-      role = "admin";
-    } else if (form.email === "vendor@campus.edu") {
-      role = "vendor";
-    }
-    setUser({ ...form, role });
-    if (role === "admin") {
-      navigate("/admin/dashboard");
-    } else if (role === "vendor") {
-      navigate("/vendor/dashboard");
-    } else {
-      navigate("/student/dashboard");
-    }
+    // For now, just navigate to student dashboard since auth is removed
+    navigate("/student/dashboard");
   };
 
   return (
