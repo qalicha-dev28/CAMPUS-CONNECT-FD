@@ -1,7 +1,7 @@
 // src/pages/student/MyProfile.jsx
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { motion } from "framer-motion";
 
 export default function MyProfile() {
