@@ -2,13 +2,11 @@
 import { useEffect, useState } from "react";
 import { fetchMockBookings } from "../../services/serviceApi";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 
 export default function Bookings() {
   const [bookings, setBookings] = useState([]);
   const navigate = useNavigate();
-  const { user, logout } = useAuth?.() || { user: null, logout: () => {} };
 
   useEffect(() => {
     async function load() {
@@ -71,7 +69,7 @@ export default function Bookings() {
 
           <div className="flex items-center gap-4 text-sm">
             <span className="text-gray-300">
-              {user?.email || "student@campus.edu"}
+              student@campus.edu
             </span>
             <button
               onClick={() => navigate("/student/profile")}
@@ -80,7 +78,7 @@ export default function Bookings() {
               Profile
             </button>
             <button
-              onClick={logout}
+              onClick={() => navigate("/")}
               className="px-3 py-1 rounded bg-lime-400 text-black font-semibold text-xs hover:bg-lime-300 transition-modern"
             >
               Logout
