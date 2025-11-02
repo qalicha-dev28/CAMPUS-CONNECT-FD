@@ -1,5 +1,5 @@
 // src/context/AuthContext.jsx
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 
 const AuthContext = createContext();
 
@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
       : {
           fullName: "John Foe",
           email: "student@campus.ac",
-          role: "Student",
+          role: "Vendor",
         };
   });
 
@@ -33,6 +33,3 @@ export function AuthProvider({ children }) {
   );
 }
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
