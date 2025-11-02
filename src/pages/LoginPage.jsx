@@ -15,9 +15,20 @@ export default function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    const role = form.email === "admin@campus.edu" ? "admin" : "student";
+    let role = "student";
+    if (form.email === "admin@campus.edu") {
+      role = "admin";
+    } else if (form.email === "vendor@campus.edu") {
+      role = "vendor";
+    }
     setUser({ ...form, role });
-    navigate(role === "admin" ? "/admin/dashboard" : "/student/dashboard");
+    if (role === "admin") {
+      navigate("/admin/dashboard");
+    } else if (role === "vendor") {
+      navigate("/vendor/dashboard");
+    } else {
+      navigate("/student/dashboard");
+    }
   };
 
   return (
