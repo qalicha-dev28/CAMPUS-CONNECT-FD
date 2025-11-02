@@ -18,14 +18,10 @@ export default function LoginPage() {
     let role = "student";
     if (form.email === "admin@campus.edu") {
       role = "admin";
-    } else if (form.email === "vendor@campus.edu") {
-      role = "vendor";
     }
     setUser({ ...form, role });
     if (role === "admin") {
       navigate("/admin/dashboard");
-    } else if (role === "vendor") {
-      navigate("/vendor/dashboard");
     } else {
       navigate("/student/dashboard");
     }
@@ -131,10 +127,6 @@ export default function LoginPage() {
                 <p className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-lime-400 rounded-full"></span>
                   <span className="text-lime-400 font-semibold">Student:</span> student@campus.edu
-                </p>
-                <p className="flex items-center gap-2">
-                  <span className="w-2 h-2 bg-lime-400 rounded-full"></span>
-                  <span className="text-lime-400 font-semibold">Vendor:</span> vendor@campus.edu
                 </p>
                 <p className="flex items-center gap-2">
                   <span className="w-2 h-2 bg-lime-400 rounded-full"></span>
