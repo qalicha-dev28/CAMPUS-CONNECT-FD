@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { fetchMockBookings } from "../../services/serviceApi";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from "../../hooks/useAuth";
 import { motion } from "framer-motion";
 
 export default function Bookings() {
