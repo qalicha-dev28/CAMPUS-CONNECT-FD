@@ -1,10 +1,8 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 
 export default function SignupPage() {
-  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -24,7 +22,7 @@ export default function SignupPage() {
 
   const handleSignup = (e) => {
     e.preventDefault();
-    setUser(form); // mock
+    // For now, just navigate to student dashboard since auth is removed
     navigate("/student/dashboard");
   };
 
