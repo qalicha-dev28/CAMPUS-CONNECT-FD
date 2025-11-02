@@ -1,12 +1,15 @@
 // src/pages/vendor/VendorDashboard.jsx
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { fetchServices, fetchMockBookings } from "../../services/serviceApi";
+import { fetchServices, fetchMockBookings, createService, updateService, deleteService } from "../../services/serviceApi";
+import ServiceModal from "../../components/modals/ServiceModal";
 import { motion } from "framer-motion";
 
 export default function VendorDashboard() {
-  const [services, setServices] = useState([]);
-  const [bookings, setBookings] = useState([]);
+   const [services, setServices] = useState([]);
+   const [bookings, setBookings] = useState([]);
+   const [isModalOpen, setIsModalOpen] = useState(false);
+   const [editingService, setEditingService] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -21,10 +24,46 @@ export default function VendorDashboard() {
   }, []);
 
   // Calculate vendor-specific stats
-  const myServices = services.length; // In real app, filter by vendor
-  const totalBookings = bookings.length;
-  const activeBookings = bookings.filter((b) => b.status === "pending" || b.status === "confirmed").length;
-  const revenue = bookings.filter((b) => b.status === "completed").length * 25; // Mock revenue calculation
+   const myServices = services.length; // In real app, filter by vendor
+   const totalBookings = bookings.length;
+   const activeBookings = bookings.filter((b) => b.status === "pending" || b.status === "confirmed").length;
+   const revenue = bookings.filter((b) => b.status === "completed").length * 25; // Mock revenue calculation
+
+   const handleAddService = () => {
+     setEditingService(null);
+     setIsModalOpen(true);
+   };
+
+   const handleEditService = (service) => {
+     setEditingService(service);
+     setIsModalOpen(true);
+   };
+
+   const handleDeleteService = async (serviceId) => {
+     if (window.confirm("Are you sure you want to delete this service?")) {
+       try {
+         await deleteService(serviceId);
+         const updatedServices = await fetchServices();
+         setServices(updatedServices);
+       } catch {
+         alert("Failed to delete service");
+       }
+     }
+   };
+
+   const handleSaveService = async (serviceData) => {
+     try {
+       if (editingService) {
+         await updateService(editingService.id, serviceData);
+       } else {
+         await createService(serviceData);
+       }
+       const updatedServices = await fetchServices();
+       setServices(updatedServices);
+     } catch {
+       alert("Failed to save service");
+     }
+   };
 
   const stats = [
     {
@@ -66,24 +105,6 @@ export default function VendorDashboard() {
   ];
 
   const quickActions = [
-    {
-      title: "Add Service",
-      to: "/vendor/add-service",
-      icon: (
-        <svg className="w-8 h-8 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
-        </svg>
-      )
-    },
-    {
-      title: "Manage Services",
-      to: "/vendor/services",
-      icon: (
-        <svg className="w-8 h-8 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clipRule="evenodd" />
-        </svg>
-      )
-    },
     {
       title: "View Bookings",
       to: "/vendor/bookings",
@@ -292,6 +313,222 @@ export default function VendorDashboard() {
             ))}
           </div>
         </motion.div>
+
+        {/* My Services Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-16"
+        >
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl font-semibold text-white">My Services</h2>
+            <motion.button
+              onClick={handleAddService}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="bg-lime-400 text-black font-semibold py-3 px-6 rounded-xl hover:bg-lime-300 transition-modern shadow-medium hover:shadow-lime-400/25 flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
+              </svg>
+              Add Service
+            </motion.button>
+          </div>
+
+          <motion.div
+            layout
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
+          >
+            {services.map((service, index) => (
+              <motion.div
+                key={service.id}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{
+                  duration: 0.6,
+                  delay: 0.4 + index * 0.1,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{
+                  scale: 1.05,
+                  y: -10,
+                  rotateY: 2,
+                  transition: { duration: 0.3 }
+                }}
+                className="group transition-modern"
+              >
+                <div className="relative">
+                  {/* Glow effect on hover */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-lime-400/20 to-lime-300/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-xl p-6 shadow-medium hover:shadow-strong transition-modern">
+                    <div className="flex justify-between items-start mb-4">
+                      <div className="w-12 h-12 bg-lime-400/10 rounded-lg flex items-center justify-center">
+                        <svg className="w-6 h-6 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="px-2 py-1 bg-lime-400/10 text-lime-400 text-xs font-medium rounded-full">
+                        {service.category}
+                      </span>
+                    </div>
+
+                    <h3 className="text-white font-semibold text-lg mb-2">{service.name}</h3>
+                    <p className="text-gray-400 text-sm mb-4 line-clamp-2">{service.description}</p>
+
+                    <div className="flex items-center justify-between text-sm text-gray-300 mb-4">
+                      <span>By {service.vendorName}</span>
+                      <span className="font-semibold text-lime-400">${service.price}</span>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <motion.button
+                        onClick={() => handleEditService(service)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-modern"
+                      >
+                        Edit
+                      </motion.button>
+                      <motion.button
+                        onClick={() => handleDeleteService(service.id)}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex-1 bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded-lg text-sm font-medium transition-modern"
+                      >
+                        Delete
+                      </motion.button>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+
+          {services.length === 0 && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.5, type: "spring" }}
+              className="col-span-full text-center py-16"
+            >
+              <motion.div
+                animate={{ rotate: [0, 5, -5, 0] }}
+                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                className="w-20 h-20 bg-gradient-to-br from-gray-800 to-gray-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl"
+              >
+                <svg className="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clipRule="evenodd" />
+                </svg>
+              </motion.div>
+              <h3 className="text-gray-300 text-xl font-semibold mb-2">No services found</h3>
+              <p className="text-gray-500 text-base max-w-md mx-auto leading-relaxed">
+                Start by adding your first service to the platform.
+              </p>
+            </motion.div>
+          )}
+        </motion.div>
+
+        {/* Recent Bookings Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+          className="mt-16"
+        >
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-2xl font-semibold text-white">Recent Bookings</h2>
+            <Link
+              to="/vendor/bookings"
+              className="text-lime-400 hover:text-lime-300 transition-colors font-medium"
+            >
+              View All →
+            </Link>
+          </div>
+
+          <motion.div
+            className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-xl overflow-hidden shadow-strong"
+          >
+            <div className="p-6 border-b border-neutral-800/50">
+              <h3 className="text-lg font-semibold text-white">Latest Bookings</h3>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead className="bg-neutral-900/50">
+                  <tr>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Service</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Customer</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Date</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                    <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Amount</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-neutral-800/50">
+                  {bookings.slice(0, 5).map((booking, index) => (
+                    <motion.tr
+                      key={booking.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.5 + index * 0.05 }}
+                      className="hover:bg-neutral-900/30 transition-colors"
+                    >
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm font-medium text-white">{booking.serviceName}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <div className="text-sm text-gray-400">{booking.customerName}</div>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                        {booking.date}
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap">
+                        <span className={`px-2 py-1 text-xs font-medium rounded-full ${
+                          booking.status === 'completed' ? 'bg-green-400/10 text-green-400' :
+                          booking.status === 'confirmed' ? 'bg-blue-400/10 text-blue-400' :
+                          booking.status === 'pending' ? 'bg-yellow-400/10 text-yellow-400' :
+                          'bg-red-400/10 text-red-400'
+                        }`}>
+                          {booking.status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-lime-400">
+                        ${booking.amount}
+                      </td>
+                    </motion.tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {bookings.length === 0 && (
+              <div className="text-center py-16">
+                <motion.div
+                  animate={{ rotate: [0, 5, -5, 0] }}
+                  transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                  className="w-20 h-20 bg-gradient-to-br from-gray-800 to-gray-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl"
+                >
+                  <svg className="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  </svg>
+                </motion.div>
+                <h3 className="text-gray-300 text-xl font-semibold mb-2">No bookings yet</h3>
+                <p className="text-gray-500 text-base max-w-md mx-auto leading-relaxed">
+                  Your recent bookings will appear here once customers start booking your services.
+                </p>
+              </div>
+            )}
+          </motion.div>
+        </motion.div>
+
+        {/* Service Modal */}
+        <ServiceModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          service={editingService}
+          onSave={handleSaveService}
+        />
       </div>
     </div>
   );
