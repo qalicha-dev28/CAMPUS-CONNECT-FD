@@ -1,6 +1,6 @@
 // src/layouts/StudentLayout.jsx
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../hooks/useAuth";
 
 export default function StudentLayout() {
   const navigate = useNavigate();
