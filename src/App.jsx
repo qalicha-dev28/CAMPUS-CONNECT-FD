@@ -15,6 +15,8 @@ import ManageServices from "./pages/admin/ManageServices";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ViewReports from "./pages/admin/ViewReports";
 import VendorDashboard from "./pages/vendor/VendorDashboard";
+import ViewBookings from "./pages/vendor/ViewBookings";
+import RevenueReport from "./pages/vendor/RevenueReport";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -44,6 +46,8 @@ export default function App() {
 
       <Route element={<ProtectedRoute role="vendor" />}>
         <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+        <Route path="/vendor/bookings" element={<ViewBookings />} />
+        <Route path="/vendor/revenue" element={<RevenueReport />} />
       </Route>
     </Routes>
   );
