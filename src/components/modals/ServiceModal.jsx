@@ -41,7 +41,7 @@ export default function ServiceModal({ isOpen, onClose, service, onSave }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const categories = ["Laundry", "Food", "Transport", "Printing", "Tutoring"];
+  const categories = ["Laundry", "Food", "Transport", "Printing", "Tutoring", "Fitness"];
 
   return (
     <AnimatePresence>

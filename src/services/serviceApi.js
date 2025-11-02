@@ -52,6 +52,16 @@ let mockServices = [
     category: "Transport",
     description: "Affordable environmentally-friendly bike rentals."
   },
+  {
+    id: 6,
+    name: "Campus Gym Membership",
+    vendorName: "FitCampus",
+    rating: 4.9,
+    reviews: 150,
+    price: "$20/month",
+    category: "Fitness",
+    description: "Full access to campus gym facilities with personal training options."
+  },
 ];
 
 export async function fetchServices() {
