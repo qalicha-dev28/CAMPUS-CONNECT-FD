@@ -1,22 +1,15 @@
 // src/pages/student/MyProfile.jsx
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext";
 import { motion } from "framer-motion";
 
 export default function MyProfile() {
   const navigate = useNavigate();
-  const { user, setUser, logout } = useAuth();
 
-  const [fullName, setFullName] = useState(user.fullName);
-  const [email, setEmail] = useState(user.email);
+  const [fullName, setFullName] = useState("John Doe");
+  const [email, setEmail] = useState("student@campus.edu");
 
   const handleSave = () => {
-    setUser({
-      ...user,
-      fullName,
-      email,
-    });
     alert("✅ Profile updated!");
   };
 
@@ -80,7 +73,7 @@ export default function MyProfile() {
           </button>
 
           <button
-            onClick={logout}
+            onClick={() => navigate("/")}
             className="bg-lime-400 text-black text-sm px-4 py-2 rounded-lg hover:bg-lime-300 transition-modern"
           >
             Logout
@@ -152,7 +145,7 @@ export default function MyProfile() {
               <svg className="w-4 h-4 mr-2 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              {user.role}
+              Student
             </div>
           </motion.div>
 
