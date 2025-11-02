@@ -14,7 +14,6 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import ManageServices from "./pages/admin/ManageServices";
 import ManageUsers from "./pages/admin/ManageUsers";
 import ViewReports from "./pages/admin/ViewReports";
-import VendorDashboard from "./pages/vendor/VendorDashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -42,9 +41,6 @@ export default function App() {
         <Route path="/admin/reports" element={<ViewReports />} />
       </Route>
 
-      <Route element={<ProtectedRoute role="vendor" />}>
-        <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-      </Route>
     </Routes>
   );
 }
