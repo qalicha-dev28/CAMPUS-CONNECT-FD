@@ -20,10 +20,50 @@ export default function SignupPage() {
     setForm({ ...form, role });
   };
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    // For now, just navigate to student dashboard since auth is removed
-    navigate("/student/dashboard");
+
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(form),
+      });
+
+      // If backend is up, handle real data
+      if (response.ok) {
+        const data = await response.json();
+        if (data.role === "student") {
+          navigate("/student/dashboard");
+        } else if (data.role === "vendor") {
+          navigate("/vendor/dashboard");
+        } else if (data.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          alert("Unknown role returned from backend.");
+        }
+      }
+      // If backend is not ready, fall back to UI logic
+      else {
+        if (form.role === "student") {
+          navigate("/student/dashboard");
+        } else if (form.role === "vendor") {
+          navigate("/vendor/dashboard");
+        } else if (form.role === "admin") {
+          navigate("/admin/dashboard");
+        }
+      }
+    } catch (error) {
+      console.error("Signup error:", error);
+      // Still let you test locally even if fetch fails
+      if (form.role === "student") {
+        navigate("/student/dashboard");
+      } else if (form.role === "vendor") {
+        navigate("/vendor/dashboard");
+      } else if (form.role === "admin") {
+        navigate("/admin/dashboard");
+      }
+    }
   };
 
   return (
@@ -153,6 +193,7 @@ export default function SignupPage() {
                   onChange={handleChange}
                   className="w-full bg-neutral-800 rounded-xl px-4 py-3 outline-none border border-neutral-700 focus:border-lime-400 focus:ring-2 focus:ring-lime-400/20 transition-modern text-base hover:bg-neutral-700/50"
                 >
+                  <option value="">Select Role</option>
                   <option value="student">Student</option>
                   <option value="vendor">Vendor</option>
                 </select>
