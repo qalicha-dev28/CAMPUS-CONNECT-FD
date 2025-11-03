@@ -1,15 +1,17 @@
 // src/pages/vendor/VendorDashboard.jsx
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchServices, fetchMockBookings, createService, updateService, deleteService } from "../../services/serviceApi";
+import { logoutUser } from "../../services/fakeAuth";
 import ServiceModal from "../../components/modals/ServiceModal";
 import { motion } from "framer-motion";
 
 export default function VendorDashboard() {
-   const [services, setServices] = useState([]);
-   const [bookings, setBookings] = useState([]);
-   const [isModalOpen, setIsModalOpen] = useState(false);
-   const [editingService, setEditingService] = useState(null);
+    const navigate = useNavigate();
+    const [services, setServices] = useState([]);
+    const [bookings, setBookings] = useState([]);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [editingService, setEditingService] = useState(null);
 
   useEffect(() => {
     async function load() {
@@ -63,6 +65,11 @@ export default function VendorDashboard() {
      } catch {
        alert("Failed to save service");
      }
+   };
+
+   const handleLogout = () => {
+     logoutUser();
+     navigate("/login");
    };
 
   const stats = [
@@ -120,6 +127,15 @@ export default function VendorDashboard() {
       icon: (
         <svg className="w-8 h-8 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
           <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        </svg>
+      )
+    },
+    {
+      title: "Logout",
+      onClick: handleLogout,
+      icon: (
+        <svg className="w-8 h-8 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clipRule="evenodd" />
         </svg>
       )
     }
@@ -296,19 +312,35 @@ export default function VendorDashboard() {
                 whileHover={{ scale: 1.02, y: -8 }}
                 whileTap={{ scale: 0.98 }}
               >
-                <Link
-                  to={action.to}
-                  className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] hover:from-[#252525] hover:to-[#2a2a2a] transition-modern border border-neutral-800/50 p-6 rounded-xl text-center block group hover:shadow-medium hover:shadow-lime-400/10"
-                >
-                  <div className="flex flex-col items-center space-y-3">
-                    <div className="p-3 bg-lime-400/10 rounded-xl group-hover:bg-lime-400/20 transition-colors">
-                      {action.icon}
+                {action.to ? (
+                  <Link
+                    to={action.to}
+                    className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] hover:from-[#252525] hover:to-[#2a2a2a] transition-modern border border-neutral-800/50 p-6 rounded-xl text-center block group hover:shadow-medium hover:shadow-lime-400/10"
+                  >
+                    <div className="flex flex-col items-center space-y-3">
+                      <div className="p-3 bg-lime-400/10 rounded-xl group-hover:bg-lime-400/20 transition-colors">
+                        {action.icon}
+                      </div>
+                      <span className="font-semibold text-white group-hover:text-lime-400 transition-colors">
+                        {action.title}
+                      </span>
                     </div>
-                    <span className="font-semibold text-white group-hover:text-lime-400 transition-colors">
-                      {action.title}
-                    </span>
-                  </div>
-                </Link>
+                  </Link>
+                ) : (
+                  <button
+                    onClick={action.onClick}
+                    className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] hover:from-[#252525] hover:to-[#2a2a2a] transition-modern border border-neutral-800/50 p-6 rounded-xl text-center block group hover:shadow-medium hover:shadow-lime-400/10 w-full"
+                  >
+                    <div className="flex flex-col items-center space-y-3">
+                      <div className="p-3 bg-lime-400/10 rounded-xl group-hover:bg-lime-400/20 transition-colors">
+                        {action.icon}
+                      </div>
+                      <span className="font-semibold text-white group-hover:text-lime-400 transition-colors">
+                        {action.title}
+                      </span>
+                    </div>
+                  </button>
+                )}
               </motion.div>
             ))}
           </div>
