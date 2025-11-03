@@ -1,4 +1,5 @@
 // src/services/serviceApi.js
+import { api } from './api';
 
 /** Mock services list - stored in memory for CRUD operations */
 let mockServices = [
@@ -64,8 +65,25 @@ let mockServices = [
   },
 ];
 
-export async function fetchServices() {
-  return [...mockServices];
+export async function fetchServices({ category = '', search = '' } = {}) {
+  try {
+    const response = await api.getServices({ category, search });
+    return response.data || response;
+  } catch (error) {
+    console.warn('Backend not available, using mock data:', error.message);
+    // Filter mock data based on parameters
+    let filtered = [...mockServices];
+    if (category && category !== 'All') {
+      filtered = filtered.filter(s => s.category === category);
+    }
+    if (search) {
+      filtered = filtered.filter(s =>
+        s.name.toLowerCase().includes(search.toLowerCase()) ||
+        s.vendorName.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    return filtered;
+  }
 }
 
 // CRUD Operations for Services
@@ -124,7 +142,13 @@ let mockBookings = [
 ];
 
 export async function fetchMockBookings() {
-  return [...mockBookings];
+  try {
+    const response = await api.getBookings();
+    return response.data || response;
+  } catch (error) {
+    console.warn('Backend not available, using mock data:', error.message);
+    return [...mockBookings];
+  }
 }
 
 // CRUD Operations for Bookings
@@ -183,7 +207,7 @@ let mockUsers = [
   { id: 2, name: "Jane Smith", email: "jane.smith@campus.edu", role: "Student", status: "Active", joinDate: "2024-02-20" },
   { id: 3, name: "Mike Johnson", email: "mike.johnson@campus.edu", role: "Student", status: "Inactive", joinDate: "2024-03-10" },
   { id: 4, name: "Sarah Wilson", email: "sarah.wilson@campus.edu", role: "Student", status: "Active", joinDate: "2024-01-05" },
-  { id: 5, name: "Admin User", email: "admin@campus.edu", role: "Admin", status: "Active", joinDate: "2023-12-01" },
+  { id: 5, name: "Admin User", email: "admin@campusconnect.com", role: "Admin", status: "Active", joinDate: "2023-12-01" },
 ];
 
 export async function fetchUsers() {

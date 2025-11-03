@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import BackButton from "../../components/BackButton";
 import { useEffect, useState, useCallback } from "react";
 import { createMockReview, fetchReviewsByService } from "../../services/reviewsApi";
 
@@ -28,15 +29,18 @@ export default function LeaveReview() {
   }
 
   return (
-    <div className="text-white p-6">
-      <h2 className="text-2xl font-bold mb-4">Leave a Review for {serviceName}</h2>
+    <>
+      <BackButton className="mb-4" />
 
-      <form onSubmit={handleSubmit} className="space-y-3 max-w-md">
+      <div className="text-white p-6" overflow-y-auto>
+      <h2 className="text-2xl font-bold mb-4" overflow-y-auto>Leave a Review for {serviceName}</h2>
+
+      <form onSubmit={handleSubmit} className="space-y-3 max-w-md" overflow-y-auto>
         <select
           value={rating}
           onChange={(e) => setRating(e.target.value)}
           required
-          className="w-full bg-gray-800 p-2 rounded"
+          className="w-full bg-gray-800 p-2 rounded" overflow-y-auto
         >
           <option value="">Select rating</option>
           <option value="⭐">⭐</option>
@@ -51,25 +55,26 @@ export default function LeaveReview() {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           required
-          className="w-full bg-gray-800 p-2 h-24 rounded"
+          className="w-full bg-gray-800 p-2 h-24 rounded" overflow-y-auto
         />
 
-        <button className="bg-lime-400 text-black px-4 py-2 rounded">
+        <button className="bg-lime-400 text-black px-4 py-2 rounded" overflow-y-auto>
           Submit Review
         </button>
       </form>
 
-      <h3 className="mt-6 text-xl font-bold">Existing Reviews:</h3>
-      <ul className="mt-2 space-y-2">
+      <h3 className="mt-6 text-xl font-bold" overflow-y-auto>Existing Reviews:</h3>
+      <ul className="mt-2 space-y-2" overflow-y-auto>
         {reviews.map((r) => (
           <li
             key={r.id}
-            className="bg-gray-800 p-2 rounded text-sm"
+            className="bg-gray-800 p-2 rounded text-sm" overflow-y-auto
           >
             <strong>{r.rating}</strong> - {r.comment}
           </li>
         ))}
       </ul>
     </div>
+    </>
   );
 }

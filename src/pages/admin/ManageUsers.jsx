@@ -1,4 +1,5 @@
 // src/pages/admin/ManageUsers.jsx
+import BackButton from "../../components/BackButton";
 import { useState, useEffect } from "react";
 import { fetchUsers, createUser, updateUser, deleteUser } from "../../services/serviceApi";
 import UserModal from "../../components/modals/UserModal";
@@ -54,9 +55,12 @@ export default function ManageUsers() {
   };
 
   return (
-    <div className="bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0f0f0f] min-h-screen w-full flex justify-center relative overflow-hidden">
+    <>
+      <BackButton className="mb-4" />
+
+      <div className="bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0f0f0f] min-h-screen w-full flex justify-center relative overflow-hidden" overflow-y-auto>
       {/* Enhanced Floating Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden" overflow-y-auto>
         <motion.div
           animate={{
             x: [0, 100, 0],
@@ -68,7 +72,7 @@ export default function ManageUsers() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-lime-400/15 to-lime-300/10 rounded-full blur-xl shadow-lg shadow-lime-400/20"
+          className="absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-lime-400/15 to-lime-300/10 rounded-full blur-xl shadow-lg shadow-lime-400/20" overflow-y-auto
         />
         <motion.div
           animate={{
@@ -81,7 +85,7 @@ export default function ManageUsers() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute bottom-40 right-20 w-40 h-40 bg-gradient-to-br from-lime-400/8 to-lime-500/5 rounded-full blur-2xl shadow-xl shadow-lime-400/10"
+          className="absolute bottom-40 right-20 w-40 h-40 bg-gradient-to-br from-lime-400/8 to-lime-500/5 rounded-full blur-2xl shadow-xl shadow-lime-400/10" overflow-y-auto
         />
 
         {/* Rotating geometric shapes */}
@@ -95,7 +99,7 @@ export default function ManageUsers() {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute top-1/2 left-1/4 w-20 h-20 border-2 border-lime-400/30 rounded-full shadow-inner shadow-lime-400/20"
+          className="absolute top-1/2 left-1/4 w-20 h-20 border-2 border-lime-400/30 rounded-full shadow-inner shadow-lime-400/20" overflow-y-auto
         />
         <motion.div
           animate={{
@@ -107,7 +111,7 @@ export default function ManageUsers() {
             repeat: Infinity,
             ease: "linear",
           }}
-          className="absolute top-1/4 right-1/3 w-16 h-16 border border-lime-400/25 rounded-lg rotate-45 shadow-lg shadow-lime-400/15"
+          className="absolute top-1/4 right-1/3 w-16 h-16 border border-lime-400/25 rounded-lg rotate-45 shadow-lg shadow-lime-400/15" overflow-y-auto
         />
 
         {/* Additional floating particles */}
@@ -121,7 +125,7 @@ export default function ManageUsers() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-32 right-16 w-6 h-6 bg-lime-400/40 rounded-full blur-sm"
+          className="absolute top-32 right-16 w-6 h-6 bg-lime-400/40 rounded-full blur-sm" overflow-y-auto
         />
         <motion.div
           animate={{
@@ -133,12 +137,12 @@ export default function ManageUsers() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute bottom-32 left-16 w-8 h-8 bg-lime-400/30 rounded-full blur-sm"
+          className="absolute bottom-32 left-16 w-8 h-8 bg-lime-400/30 rounded-full blur-sm" overflow-y-auto
         />
 
         {/* Subtle grid overlay */}
-        <div className="absolute inset-0 opacity-[0.02]">
-          <div className="absolute inset-0" style={{
+        <div className="absolute inset-0 opacity-[0.02]" overflow-y-auto>
+          <div className="absolute inset-0" overflow-y-auto style={{
             backgroundImage: `radial-gradient(circle at 1px 1px, rgba(184,255,35,0.15) 1px, transparent 0)`,
             backgroundSize: '50px 50px'
           }}></div>
@@ -146,33 +150,33 @@ export default function ManageUsers() {
       </div>
 
       {/* Responsive container */}
-      <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 pt-8 relative min-h-screen z-10">
+      <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 pt-8 relative min-h-screen z-10" overflow-y-auto>
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-white text-center mb-16"
+          className="text-white text-center mb-16" overflow-y-auto
         >
           <motion.div
             initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-block mb-6"
+            className="inline-block mb-6" overflow-y-auto
           >
-            <div className="w-16 h-16 bg-gradient-to-br from-lime-400 to-lime-300 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-lime-400/30">
-              <svg className="w-8 h-8 text-black" fill="currentColor" viewBox="0 0 20 20">
+            <div className="w-16 h-16 bg-gradient-to-br from-lime-400 to-lime-300 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-xl shadow-lime-400/30" overflow-y-auto>
+              <svg className="w-8 h-8 text-black" overflow-y-auto fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
               </svg>
             </div>
           </motion.div>
-          <h1 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent leading-tight">
+          <h1 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent leading-tight" overflow-y-auto>
             Manage Users
           </h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-gray-300 text-xl max-w-2xl mx-auto leading-relaxed"
+            className="text-gray-300 text-xl max-w-2xl mx-auto leading-relaxed" overflow-y-auto
           >
             View and manage all registered users on the platform.
           </motion.p>
@@ -183,15 +187,15 @@ export default function ManageUsers() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8 flex justify-center"
+          className="mb-8 flex justify-center" overflow-y-auto
         >
           <motion.button
             onClick={handleAddUser}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-lime-400 text-black font-semibold py-3 px-8 rounded-xl hover:bg-lime-300 transition-modern shadow-medium hover:shadow-lime-400/25 flex items-center gap-2"
+            className="bg-lime-400 text-black font-semibold py-3 px-8 rounded-xl hover:bg-lime-300 transition-modern shadow-medium hover:shadow-lime-400/25 flex items-center gap-2" overflow-y-auto
           >
-            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <svg className="w-5 h-5" overflow-y-auto fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
             </svg>
             Add New User
@@ -203,54 +207,54 @@ export default function ManageUsers() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12"
+          className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-12" overflow-y-auto
         >
-          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium">
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-lime-400/10 rounded-lg">
-                <svg className="w-6 h-6 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
+          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium" overflow-y-auto>
+            <div className="flex items-center justify-between mb-3" overflow-y-auto>
+              <div className="p-2 bg-lime-400/10 rounded-lg" overflow-y-auto>
+                <svg className="w-6 h-6 text-lime-400" overflow-y-auto fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                 </svg>
               </div>
             </div>
-            <p className="text-gray-400 text-sm font-medium mb-1">Total Users</p>
-            <h2 className="text-2xl font-bold text-white">{users.length}</h2>
+            <p className="text-gray-400 text-sm font-medium mb-1" overflow-y-auto>Total Users</p>
+            <h2 className="text-2xl font-bold text-white" overflow-y-auto>{users.length}</h2>
           </div>
 
-          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium">
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-green-400/10 rounded-lg">
-                <svg className="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium" overflow-y-auto>
+            <div className="flex items-center justify-between mb-3" overflow-y-auto>
+              <div className="p-2 bg-green-400/10 rounded-lg" overflow-y-auto>
+                <svg className="w-6 h-6 text-green-400" overflow-y-auto fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
               </div>
             </div>
-            <p className="text-gray-400 text-sm font-medium mb-1">Active Users</p>
-            <h2 className="text-2xl font-bold text-white">{users.filter(u => u.status === 'Active').length}</h2>
+            <p className="text-gray-400 text-sm font-medium mb-1" overflow-y-auto>Active Users</p>
+            <h2 className="text-2xl font-bold text-white" overflow-y-auto>{users.filter(u => u.status === 'Active').length}</h2>
           </div>
 
-          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium">
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-blue-400/10 rounded-lg">
-                <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium" overflow-y-auto>
+            <div className="flex items-center justify-between mb-3" overflow-y-auto>
+              <div className="p-2 bg-blue-400/10 rounded-lg" overflow-y-auto>
+                <svg className="w-6 h-6 text-blue-400" overflow-y-auto fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                 </svg>
               </div>
             </div>
-            <p className="text-gray-400 text-sm font-medium mb-1">Students</p>
-            <h2 className="text-2xl font-bold text-white">{users.filter(u => u.role === 'Student').length}</h2>
+            <p className="text-gray-400 text-sm font-medium mb-1" overflow-y-auto>Students</p>
+            <h2 className="text-2xl font-bold text-white" overflow-y-auto>{users.filter(u => u.role === 'Student').length}</h2>
           </div>
 
-          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium">
-            <div className="flex items-center justify-between mb-3">
-              <div className="p-2 bg-purple-400/10 rounded-lg">
-                <svg className="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium" overflow-y-auto>
+            <div className="flex items-center justify-between mb-3" overflow-y-auto>
+              <div className="p-2 bg-purple-400/10 rounded-lg" overflow-y-auto>
+                <svg className="w-6 h-6 text-purple-400" overflow-y-auto fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                 </svg>
               </div>
             </div>
-            <p className="text-gray-400 text-sm font-medium mb-1">Admins</p>
-            <h2 className="text-2xl font-bold text-white">{users.filter(u => u.role === 'Admin').length}</h2>
+            <p className="text-gray-400 text-sm font-medium mb-1" overflow-y-auto>Admins</p>
+            <h2 className="text-2xl font-bold text-white" overflow-y-auto>{users.filter(u => u.role === 'Admin').length}</h2>
           </div>
         </motion.div>
 
@@ -259,69 +263,69 @@ export default function ManageUsers() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-xl overflow-hidden shadow-strong"
+          className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-xl overflow-hidden shadow-strong" overflow-y-auto
         >
-          <div className="p-6 border-b border-neutral-800/50">
-            <h2 className="text-xl font-semibold text-white">All Users</h2>
+          <div className="p-6 border-b border-neutral-800/50" overflow-y-auto>
+            <h2 className="text-xl font-semibold text-white" overflow-y-auto>All Users</h2>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-neutral-900/50">
+          <div className="overflow-x-auto" overflow-y-auto>
+            <table className="w-full" overflow-y-auto>
+              <thead className="bg-neutral-900/50" overflow-y-auto>
                 <tr>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">User</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Role</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Join Date</th>
-                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider" overflow-y-auto>User</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider" overflow-y-auto>Role</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider" overflow-y-auto>Status</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider" overflow-y-auto>Join Date</th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-400 uppercase tracking-wider" overflow-y-auto>Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-800/50">
+              <tbody className="divide-y divide-neutral-800/50" overflow-y-auto>
                 {users.map((user, index) => (
                   <motion.tr
                     key={user.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.3 + index * 0.05 }}
-                    className="hover:bg-neutral-900/30 transition-colors"
+                    className="hover:bg-neutral-900/30 transition-colors" overflow-y-auto
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="w-10 h-10 bg-lime-400/10 rounded-full flex items-center justify-center mr-3">
-                          <svg className="w-5 h-5 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
+                    <td className="px-6 py-4 whitespace-nowrap" overflow-y-auto>
+                      <div className="flex items-center" overflow-y-auto>
+                        <div className="w-10 h-10 bg-lime-400/10 rounded-full flex items-center justify-center mr-3" overflow-y-auto>
+                          <svg className="w-5 h-5 text-lime-400" overflow-y-auto fill="currentColor" viewBox="0 0 20 20">
                             <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                           </svg>
                         </div>
                         <div>
-                          <div className="text-sm font-medium text-white">{user.name}</div>
-                          <div className="text-sm text-gray-400">{user.email}</div>
+                          <div className="text-sm font-medium text-white" overflow-y-auto>{user.name}</div>
+                          <div className="text-sm text-gray-400" overflow-y-auto>{user.email}</div>
                         </div>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap" overflow-y-auto>
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                         user.role === 'Admin' ? 'bg-purple-400/10 text-purple-400' : 'bg-blue-400/10 text-blue-400'
                       }`}>
                         {user.role}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
+                    <td className="px-6 py-4 whitespace-nowrap" overflow-y-auto>
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${
                         user.status === 'Active' ? 'bg-green-400/10 text-green-400' : 'bg-red-400/10 text-red-400'
                       }`}>
                         {user.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-400" overflow-y-auto>
                       {user.joinDate}
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                      <div className="flex gap-2">
+                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium" overflow-y-auto>
+                      <div className="flex gap-2" overflow-y-auto>
                         <motion.button
                           onClick={() => handleEditUser(user)}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="text-lime-400 hover:text-lime-300 transition-colors"
+                          className="text-lime-400 hover:text-lime-300 transition-colors" overflow-y-auto
                         >
                           Edit
                         </motion.button>
@@ -329,7 +333,7 @@ export default function ManageUsers() {
                           onClick={() => handleDeleteUser(user.id)}
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
-                          className="text-red-400 hover:text-red-300 transition-colors"
+                          className="text-red-400 hover:text-red-300 transition-colors" overflow-y-auto
                         >
                           Delete
                         </motion.button>
@@ -351,5 +355,6 @@ export default function ManageUsers() {
         />
       </div>
     </div>
+    </>
   );
 }

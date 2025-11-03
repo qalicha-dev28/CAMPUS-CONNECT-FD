@@ -1,4 +1,5 @@
 // src/pages/vendor/ViewBookings.jsx
+import BackButton from "../../components/BackButton";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { fetchMockBookings, updateBooking } from "../../services/serviceApi";
@@ -53,23 +54,30 @@ export default function ViewBookings() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] flex items-center justify-center">
-        <div className="text-white text-xl">Loading bookings...</div>
-      </div>
+      <>
+        <BackButton className="mb-4" />
+
+        <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] flex items-center justify-center" overflow-y-auto>
+          <div className="text-white text-xl" overflow-y-auto>Loading bookings...</div>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] p-8">
-      <div className="max-w-6xl mx-auto">
+    <>
+      <BackButton className="mb-4" />
+
+      <div className="min-h-screen bg-gradient-to-br from-[#0a0a0a] to-[#1a1a1a] p-8" overflow-y-auto>
+      <div className="max-w-6xl mx-auto" overflow-y-auto>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-8"
+          className="text-center mb-8" overflow-y-auto
         >
-          <h1 className="text-4xl font-bold text-white mb-4">View Bookings</h1>
-          <p className="text-gray-400 text-lg">
+          <h1 className="text-4xl font-bold text-white mb-4" overflow-y-auto>View Bookings</h1>
+          <p className="text-gray-400 text-lg" overflow-y-auto>
             Manage and track all your service bookings
           </p>
         </motion.div>
@@ -92,37 +100,37 @@ export default function ViewBookings() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="space-y-4"
+          className="space-y-4" overflow-y-auto
         >
           {bookings.map((booking) => (
             <div
               key={booking.id}
-              className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-2xl p-6 shadow-strong"
+              className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-2xl p-6 shadow-strong" overflow-y-auto
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div className="flex-1">
-                  <div className="flex items-center gap-4 mb-2">
-                    <h3 className="text-xl font-semibold text-white">{booking.service}</h3>
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4" overflow-y-auto>
+                <div className="flex-1" overflow-y-auto>
+                  <div className="flex items-center gap-4 mb-2" overflow-y-auto>
+                    <h3 className="text-xl font-semibold text-white" overflow-y-auto>{booking.service}</h3>
                     <span className={`px-3 py-1 rounded-full text-sm font-medium border ${getStatusColor(booking.status)}`}>
                       {booking.status.charAt(0).toUpperCase() + booking.status.slice(1)}
                     </span>
                   </div>
-                  <p className="text-gray-400 mb-2">Vendor: {booking.vendor}</p>
-                  <p className="text-gray-300">Date: {new Date(booking.date).toLocaleDateString()}</p>
+                  <p className="text-gray-400 mb-2" overflow-y-auto>Vendor: {booking.vendor}</p>
+                  <p className="text-gray-300" overflow-y-auto>Date: {new Date(booking.date).toLocaleDateString()}</p>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex gap-2" overflow-y-auto>
                   {booking.status === "pending" && (
                     <>
                       <button
                         onClick={() => handleStatusChange(booking.id, "confirmed")}
-                        className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-medium transition-modern text-sm"
+                        className="bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-medium transition-modern text-sm" overflow-y-auto
                       >
                         Confirm
                       </button>
                       <button
                         onClick={() => handleStatusChange(booking.id, "cancelled")}
-                        className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-medium transition-modern text-sm"
+                        className="bg-red-600 hover:bg-red-500 text-white px-4 py-2 rounded-lg font-medium transition-modern text-sm" overflow-y-auto
                       >
                         Cancel
                       </button>
@@ -131,7 +139,7 @@ export default function ViewBookings() {
                   {booking.status === "confirmed" && (
                     <button
                       onClick={() => handleStatusChange(booking.id, "completed")}
-                      className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-medium transition-modern text-sm"
+                      className="bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg font-medium transition-modern text-sm" overflow-y-auto
                     >
                       Mark Complete
                     </button>
@@ -147,18 +155,19 @@ export default function ViewBookings() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-center py-12"
+            className="text-center py-12" overflow-y-auto
           >
-            <div className="w-24 h-24 bg-gray-700/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-12 h-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-24 h-24 bg-gray-700/20 rounded-full flex items-center justify-center mx-auto mb-6" overflow-y-auto>
+              <svg className="w-12 h-12 text-gray-500" overflow-y-auto fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-white mb-2">No Bookings Found</h3>
-            <p className="text-gray-400">You don't have any bookings yet.</p>
+            <h3 className="text-xl font-semibold text-white mb-2" overflow-y-auto>No Bookings Found</h3>
+            <p className="text-gray-400" overflow-y-auto>You don't have any bookings yet.</p>
           </motion.div>
         )}
       </div>
     </div>
+    </>
   );
 }

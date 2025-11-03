@@ -1,4 +1,5 @@
 // src/pages/student/ServiceDetail.jsx
+import BackButton from "../../components/BackButton";
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchServices } from "../../services/serviceApi";
@@ -20,7 +21,7 @@ export default function ServiceDetail() {
     fetchReviewsByService(id).then(setReviews);
   }, [id]);
 
-  if (!service) return <p className="text-white p-6">Loading...</p>;
+  if (!service) return <p className="text-white p-6" overflow-y-auto>Loading...</p>;
 
   const avg =
     reviews.length > 0
@@ -28,46 +29,50 @@ export default function ServiceDetail() {
       : null;
 
   return (
-    <div className="p-6">
+    <>
+      <BackButton className="mb-4" />
+
+      <div className="p-6" overflow-y-auto>
       <button
         onClick={() => navigate(-1)}
-        className="text-gray-300 hover:text-white text-sm mb-4"
+        className="text-gray-300 hover:text-white text-sm mb-4" overflow-y-auto
       >
         ← Back
       </button>
 
-      <h2 className="text-white text-xl font-semibold">{service.name}</h2>
-      <p className="text-gray-400 text-sm mb-2">{service.vendorName}</p>
-      <p className="text-gray-200 text-sm mb-4">{service.description}</p>
+      <h2 className="text-white text-xl font-semibold" overflow-y-auto>{service.name}</h2>
+      <p className="text-gray-400 text-sm mb-2" overflow-y-auto>{service.vendorName}</p>
+      <p className="text-gray-200 text-sm mb-4" overflow-y-auto>{service.description}</p>
 
-      <div className="bg-lime-400 text-black w-fit px-3 py-1 rounded text-sm mb-6">
+      <div className="bg-lime-400 text-black w-fit px-3 py-1 rounded text-sm mb-6" overflow-y-auto>
         {service.price}
       </div>
 
-      <h3 className="text-white text-lg font-semibold mb-2">Reviews</h3>
+      <h3 className="text-white text-lg font-semibold mb-2" overflow-y-auto>Reviews</h3>
 
       {reviews.length === 0 ? (
-        <p className="text-gray-400 text-sm">No reviews yet.</p>
+        <p className="text-gray-400 text-sm" overflow-y-auto>No reviews yet.</p>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-3" overflow-y-auto>
           {reviews.map((r) => (
             <div
               key={r.id}
-              className="bg-[#0d1016] border border-black rounded-lg p-4"
+              className="bg-[#0d1016] border border-black rounded-lg p-4" overflow-y-auto
             >
-              <p className="text-yellow-400 text-sm">⭐ {r.rating}/5</p>
-              <p className="text-gray-200 text-sm">{r.comment}</p>
-              <p className="text-gray-500 text-xs mt-1">{r.date}</p>
+              <p className="text-yellow-400 text-sm" overflow-y-auto>⭐ {r.rating}/5</p>
+              <p className="text-gray-200 text-sm" overflow-y-auto>{r.comment}</p>
+              <p className="text-gray-500 text-xs mt-1" overflow-y-auto>{r.date}</p>
             </div>
           ))}
         </div>
       )}
 
       {avg && (
-        <p className="text-gray-300 text-sm mt-4">
-          Average rating: <span className="text-yellow-400">{avg}</span>
+        <p className="text-gray-300 text-sm mt-4" overflow-y-auto>
+          Average rating: <span className="text-yellow-400" overflow-y-auto>{avg}</span>
         </p>
       )}
     </div>
+    </>
   );
 }

@@ -1,58 +1,111 @@
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || "";
+import axios from 'axios';
 
-async function request(path, options = {}) {
-  const token = localStorage.getItem("cc_token");
-  const headers = {
-    "Content-Type": "application/json",
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    ...(options.headers || {})
-  };
-
-  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers });
-  if (!res.ok) {
-    const text = await res.text().catch(() => "");
-    throw new Error(text || `HTTP ${res.status}`);
-  }
-  const contentType = res.headers.get("content-type") || "";
-  return contentType.includes("application/json") ? res.json() : res.text();
-}
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5004';
 
 export const api = {
-  // GET /bookings?status=&page=&limit=
-  async getBookings({ status = "", page = 1, limit = 10 } = {}) {
-    if (!BASE_URL) {
-      // Fallback MOCK when no backend URL configured
-      return {
-        data: [
-          {
-            id: 1,
-            serviceName: "Express Laundry Service",
-            date: "2025-10-16T10:00:00Z",
-            location: "204B",
-            price: 8.99,
-            status: "confirmed",
-          },
-          {
-            id: 2,
-            serviceName: "Math & Science Tutoring",
-            date: "2025-10-17T14:00:00Z",
-            location: "Library 3F",
-            price: 25.0,
-            status: "pending",
-          },
-          {
-            id: 3,
-            serviceName: "24/7 Printing & Copy",
-            date: "2025-10-15T09:00:00Z",
-            location: "N/A",
-            price: 5.5,
-            status: "completed",
-          },
-        ],
-        page, limit, total: 3
-      };
-    }
-    const qs = new URLSearchParams({ page, limit, ...(status ? { status } : {}) });
-    return request(`/bookings?${qs.toString()}`);
+  // Services
+  async getServices({ category = '', search = '', page = 1, limit = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (category) params.append('category', category);
+    if (search) params.append('search', search);
+    params.append('page', page);
+    params.append('limit', limit);
+
+    const response = await axios.get(`${BASE_URL}/services?${params}`);
+    return response.data;
+  },
+
+  async getService(id) {
+    const response = await axios.get(`${BASE_URL}/services/${id}`);
+    return response.data;
+  },
+
+  async createService(serviceData) {
+    const response = await axios.post(`${BASE_URL}/services`, serviceData);
+    return response.data;
+  },
+
+  async updateService(id, serviceData) {
+    const response = await axios.put(`${BASE_URL}/services/${id}`, serviceData);
+    return response.data;
+  },
+
+  async deleteService(id) {
+    const response = await axios.delete(`${BASE_URL}/services/${id}`);
+    return response.data;
+  },
+
+  // Bookings
+  async getBookings({ status = '', page = 1, limit = 10 } = {}) {
+    const params = new URLSearchParams();
+    if (status) params.append('status', status);
+    params.append('page', page);
+    params.append('limit', limit);
+
+    const response = await axios.get(`${BASE_URL}/bookings?${params}`);
+    return response.data;
+  },
+
+  async createBooking(bookingData) {
+    const response = await axios.post(`${BASE_URL}/bookings`, bookingData);
+    return response.data;
+  },
+
+  async updateBooking(id, bookingData) {
+    const response = await axios.put(`${BASE_URL}/bookings/${id}`, bookingData);
+    return response.data;
+  },
+
+  async cancelBooking(id) {
+    const response = await axios.delete(`${BASE_URL}/bookings/${id}`);
+    return response.data;
+  },
+
+  // Reviews
+  async getReviews(serviceId) {
+    const response = await axios.get(`${BASE_URL}/reviews?serviceId=${serviceId}`);
+    return response.data;
+  },
+
+  async createReview(reviewData) {
+    const response = await axios.post(`${BASE_URL}/reviews`, reviewData);
+    return response.data;
+  },
+
+  // Posts (Social Features)
+  async getPosts({ page = 1, limit = 10 } = {}) {
+    const response = await axios.get(`${BASE_URL}/posts?page=${page}&limit=${limit}`);
+    return response.data;
+  },
+
+  async createPost(postData) {
+    const response = await axios.post(`${BASE_URL}/posts`, postData);
+    return response.data;
+  },
+
+  async likePost(postId) {
+    const response = await axios.post(`${BASE_URL}/posts/${postId}/like`);
+    return response.data;
+  },
+
+  async commentOnPost(postId, commentData) {
+    const response = await axios.post(`${BASE_URL}/posts/${postId}/comments`, commentData);
+    return response.data;
+  },
+
+  // Admin endpoints
+  async getUsers({ page = 1, limit = 10 } = {}) {
+    const response = await axios.get(`${BASE_URL}/admin/users?page=${page}&limit=${limit}`);
+    return response.data;
+  },
+
+  async updateUser(id, userData) {
+    const response = await axios.put(`${BASE_URL}/admin/users/${id}`, userData);
+    return response.data;
+  },
+
+  async getAnalytics() {
+    const response = await axios.get(`${BASE_URL}/admin/analytics`);
+    return response.data;
   },
 };
