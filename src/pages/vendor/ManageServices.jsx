@@ -37,6 +37,7 @@ export default function ManageServices() {
     try {
       await updateService(editingService.id, serviceData);
       setMessage("Service updated successfully!");
+      setIsModalOpen(false); // Close modal after success
       setTimeout(() => setMessage(""), 3000);
       loadServices();
     } catch {

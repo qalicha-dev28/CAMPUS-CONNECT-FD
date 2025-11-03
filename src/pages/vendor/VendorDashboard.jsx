@@ -63,6 +63,7 @@ export default function VendorDashboard() {
        }
        const updatedServices = await fetchServices();
        setServices(updatedServices);
+       setIsModalOpen(false); // Close modal after success
      } catch {
        alert("Failed to save service");
      }

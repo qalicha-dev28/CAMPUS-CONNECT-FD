@@ -256,6 +256,18 @@ export default function ManageUsers() {
             <p className="text-gray-400 text-sm font-medium mb-1" overflow-y-auto>Admins</p>
             <h2 className="text-2xl font-bold text-white" overflow-y-auto>{users.filter(u => u.role === 'Admin').length}</h2>
           </div>
+
+          <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium" overflow-y-auto>
+            <div className="flex items-center justify-between mb-3" overflow-y-auto>
+              <div className="p-2 bg-orange-400/10 rounded-lg" overflow-y-auto>
+                <svg className="w-6 h-6 text-orange-400" overflow-y-auto fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a2 2 0 114 0 2 2 0 01-4 0z" clipRule="evenodd" />
+                </svg>
+              </div>
+            </div>
+            <p className="text-gray-400 text-sm font-medium mb-1" overflow-y-auto>Vendors</p>
+            <h2 className="text-2xl font-bold text-white" overflow-y-auto>{users.filter(u => u.role === 'Vendor').length}</h2>
+          </div>
         </motion.div>
 
         {/* Users Table */}
@@ -304,7 +316,9 @@ export default function ManageUsers() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap" overflow-y-auto>
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        user.role === 'Admin' ? 'bg-purple-400/10 text-purple-400' : 'bg-blue-400/10 text-blue-400'
+                        user.role === 'Admin' ? 'bg-purple-400/10 text-purple-400' :
+                        user.role === 'Vendor' ? 'bg-orange-400/10 text-orange-400' :
+                        'bg-blue-400/10 text-blue-400'
                       }`}>
                         {user.role}
                       </span>

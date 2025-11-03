@@ -13,4 +13,12 @@ export default defineConfig({
   server: {
     historyApiFallback: true,
   },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+  },
+  preview: {
+    port: 4173,
+    host: '0.0.0.0',
+  },
 });

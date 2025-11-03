@@ -13,6 +13,7 @@ export default function AddService() {
     try {
       await createService(serviceData);
       setMessage("Service added successfully!");
+      setIsModalOpen(false); // Close modal after success
       setTimeout(() => setMessage(""), 3000);
     } catch {
       setMessage("Failed to add service. Please try again.");
@@ -54,12 +55,14 @@ export default function AddService() {
             <p className="text-gray-400 mb-8 max-w-md mx-auto" overflow-y-auto>
               Click the button below to open the service creation form and start offering new services to students.
             </p>
-            <button
+            <motion.button
               onClick={() => setIsModalOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
               className="bg-lime-400 hover:bg-lime-300 text-black px-8 py-4 rounded-xl font-semibold text-lg transition-modern shadow-medium hover:shadow-lime-400/25 transform hover:scale-105" overflow-y-auto
             >
               Add New Service
-            </button>
+            </motion.button>
           </div>
 
           {message && (

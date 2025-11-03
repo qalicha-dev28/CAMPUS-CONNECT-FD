@@ -38,7 +38,7 @@ export default function UserModal({ isOpen, onClose, user, onSave }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const roles = ["Student", "Admin"];
+  const roles = ["Student", "Vendor", "Admin"];
   const statuses = ["Active", "Inactive"];
 
   return (

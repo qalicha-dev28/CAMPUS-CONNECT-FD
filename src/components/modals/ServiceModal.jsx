@@ -62,7 +62,7 @@ export default function ServiceModal({ isOpen, onClose, service, onSave }) {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed inset-0 flex items-center justify-center z-50 p-4"
+            className="fixed inset-0 flex items-center justify-center z-50 p-4 overflow-y-auto"
           >
             <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-2xl p-8 w-full max-w-md shadow-strong">
               <div className="flex justify-between items-center mb-6">
