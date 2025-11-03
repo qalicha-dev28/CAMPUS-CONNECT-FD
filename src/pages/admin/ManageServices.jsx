@@ -1,50 +1,62 @@
-// src/pages/student/Services.jsx
+// src/pages/admin/ManageServices.jsx
 import { useEffect, useState } from "react";
-import { fetchServices } from "../../services/serviceApi";
-import ServiceCard from "../../components/ServiceCard";
+import { fetchServices, createService, updateService, deleteService } from "../../services/serviceApi";
+import ServiceModal from "../../components/modals/ServiceModal";
 import { motion } from "framer-motion";
 
-export default function Services() {
+export default function ManageServices() {
   const [services, setServices] = useState([]);
-  const [filtered, setFiltered] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [search, setSearch] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingService, setEditingService] = useState(null);
 
   useEffect(() => {
     async function load() {
       const s = await fetchServices();
       setServices(s);
-      setFiltered(s);
     }
     load();
   }, []);
 
-  // filters everything
-  useEffect(() => {
-    let list = [...services];
+  const handleAddService = () => {
+    setEditingService(null);
+    setIsModalOpen(true);
+  };
 
-    if (activeCategory !== "All") {
-      list = list.filter((s) => s.category === activeCategory);
+  const handleEditService = (service) => {
+    setEditingService(service);
+    setIsModalOpen(true);
+  };
+
+  const handleDeleteService = async (serviceId) => {
+    if (window.confirm("Are you sure you want to delete this service?")) {
+      try {
+        await deleteService(serviceId);
+        const updatedServices = await fetchServices();
+        setServices(updatedServices);
+      } catch {
+        alert("Failed to delete service");
+      }
     }
+  };
 
-    if (search.length > 0) {
-      list = list.filter(
-        (s) =>
-          s.name.toLowerCase().includes(search.toLowerCase()) ||
-          s.vendorName.toLowerCase().includes(search.toLowerCase())
-      );
+  const handleSaveService = async (serviceData) => {
+    try {
+      if (editingService) {
+        await updateService(editingService.id, serviceData);
+      } else {
+        await createService(serviceData);
+      }
+      const updatedServices = await fetchServices();
+      setServices(updatedServices);
+    } catch {
+      alert("Failed to save service");
     }
-
-    setFiltered(list);
-  }, [activeCategory, search, services]);
-
-  const categories = ["All", "Laundry", "Food", "Transport", "Printing", "Tutoring"];
+  };
 
   return (
     <div className="bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0f0f0f] min-h-screen w-full flex justify-center relative overflow-hidden">
       {/* Enhanced Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
-        {/* Primary floating orbs */}
         <motion.div
           animate={{
             x: [0, 100, 0],
@@ -154,7 +166,7 @@ export default function Services() {
             </div>
           </motion.div>
           <h1 className="text-4xl lg:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-gray-100 to-gray-300 bg-clip-text text-transparent leading-tight">
-            Browse Services
+            Manage Services
           </h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -162,61 +174,38 @@ export default function Services() {
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-gray-300 text-xl max-w-2xl mx-auto leading-relaxed"
           >
-            Discover and book essential campus services with ease. From laundry to tutoring, everything you need in one place.
+            Add, edit, and manage campus services available to students.
           </motion.p>
         </motion.div>
 
+        {/* Add Service Button */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1 }}
-          className="mb-8"
+          className="mb-8 flex justify-center"
         >
-          {/* Search */}
-          <div className="relative max-w-md mx-auto mb-8">
-            <svg className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
+          <motion.button
+            onClick={handleAddService}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="bg-lime-400 text-black font-semibold py-3 px-8 rounded-xl hover:bg-lime-300 transition-modern shadow-medium hover:shadow-lime-400/25 flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clipRule="evenodd" />
             </svg>
-            <input
-              type="text"
-              placeholder="Search services..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full bg-[#1a1a1a] border border-gray-700 rounded-xl p-4 pl-12 focus:outline-none focus:border-lime-400 focus:ring-1 focus:ring-lime-400/50 transition-modern text-white placeholder-gray-400"
-            />
-          </div>
-
-          {/* Category Tabs */}
-          <div className="flex flex-wrap justify-center gap-3 mb-12">
-            {categories.map((cat, index) => (
-              <motion.button
-                key={cat}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.3, delay: 0.2 + index * 0.1 }}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-6 py-3 rounded-full border text-sm font-medium transition-modern ${
-                  activeCategory === cat
-                    ? "bg-lime-400 text-black border-lime-400 shadow-medium shadow-lime-400/25"
-                    : "border-gray-700 hover:border-lime-400/50 hover:bg-lime-400/5 text-gray-300"
-                }`}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                {cat}
-              </motion.button>
-            ))}
-          </div>
+            Add New Service
+          </motion.button>
         </motion.div>
 
-        {/* Responsive Card Grid */}
+        {/* Services Grid */}
         <motion.div
           layout
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10"
         >
-          {filtered.map((s, index) => (
+          {services.map((service, index) => (
             <motion.div
-              key={s.id}
+              key={service.id}
               initial={{ opacity: 0, y: 30, scale: 0.9 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{
@@ -236,34 +225,81 @@ export default function Services() {
               <div className="relative">
                 {/* Glow effect on hover */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-lime-400/20 to-lime-300/20 rounded-2xl blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative">
-                  <ServiceCard service={s} />
+                <div className="relative bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-xl p-6 shadow-medium hover:shadow-strong transition-modern">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="w-12 h-12 bg-lime-400/10 rounded-lg flex items-center justify-center">
+                      <svg className="w-6 h-6 text-lime-400" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clipRule="evenodd" />
+                      </svg>
+                    </div>
+                    <span className="px-2 py-1 bg-lime-400/10 text-lime-400 text-xs font-medium rounded-full">
+                      {service.category}
+                    </span>
+                  </div>
+
+                  <h3 className="text-white font-semibold text-lg mb-2">{service.name}</h3>
+                  <p className="text-gray-400 text-sm mb-4 line-clamp-2">{service.description}</p>
+
+                  <div className="flex items-center justify-between text-sm text-gray-300 mb-4">
+                    <span>By {service.vendorName}</span>
+                    <span className="font-semibold text-lime-400">${service.price}</span>
+                  </div>
+
+                  <div className="flex gap-2">
+                    <motion.button
+                      onClick={() => handleEditService(service)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex-1 bg-gray-700 hover:bg-gray-600 text-white py-2 px-4 rounded-lg text-sm font-medium transition-modern"
+                    >
+                      Edit
+                    </motion.button>
+                    <motion.button
+                      onClick={() => handleDeleteService(service.id)}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="flex-1 bg-red-600 hover:bg-red-500 text-white py-2 px-4 rounded-lg text-sm font-medium transition-modern"
+                    >
+                      Delete
+                    </motion.button>
+                  </div>
                 </div>
               </div>
             </motion.div>
           ))}
-
-          {filtered.length === 0 && (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.5, type: "spring" }}
-              className="col-span-full text-center py-16"
-            >
-              <motion.div animate={{ rotate: [0, 5, -5, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }} className="w-20 h-20 bg-gradient-to-br from-gray-800 to-gray-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
-                <svg className="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
-                </svg>
-              </motion.div>
-              <h3 className="text-gray-300 text-xl font-semibold mb-2">No services found</h3>
-              <p className="text-gray-500 text-base max-w-md mx-auto leading-relaxed">
-                Try adjusting your search terms or selecting a different category to find what you're looking for.
-              </p>
-            </motion.div>
-          )}
         </motion.div>
+
+        {services.length === 0 && (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.5, type: "spring" }}
+            className="col-span-full text-center py-16"
+          >
+            <motion.div
+              animate={{ rotate: [0, 5, -5, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              className="w-20 h-20 bg-gradient-to-br from-gray-800 to-gray-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl"
+            >
+              <svg className="w-10 h-10 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clipRule="evenodd" />
+              </svg>
+            </motion.div>
+            <h3 className="text-gray-300 text-xl font-semibold mb-2">No services found</h3>
+            <p className="text-gray-500 text-base max-w-md mx-auto leading-relaxed">
+              Start by adding your first service to the platform.
+            </p>
+          </motion.div>
+        )}
+
+        {/* Service Modal */}
+        <ServiceModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          service={editingService}
+          onSave={handleSaveService}
+        />
       </div>
     </div>
   );
 }
-

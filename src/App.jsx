@@ -10,6 +10,15 @@ import Bookings from "./pages/student/Bookings";
 import ServiceDetail from "./pages/student/ServiceDetail";
 import LeaveReview from "./pages/student/LeaveReview";
 import MyProfile from "./pages/student/MyProfile";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import ManageServices from "./pages/admin/ManageServices";
+import ManageUsers from "./pages/admin/ManageUsers";
+import ViewReports from "./pages/admin/ViewReports";
+import VendorDashboard from "./pages/vendor/VendorDashboard";
+import ViewBookings from "./pages/vendor/ViewBookings";
+import RevenueReport from "./pages/vendor/RevenueReport";
+import VendorManageServices from "./pages/vendor/ManageServices";
+import AddService from "./pages/vendor/AddService";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
@@ -28,6 +37,21 @@ export default function App() {
           <Route path="profile" element={<MyProfile />} />
           <Route path="review/:serviceName" element={<LeaveReview />} />
         </Route>
+      </Route>
+
+      <Route element={<ProtectedRoute role="admin" />}>
+        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/services" element={<ManageServices />} />
+        <Route path="/admin/users" element={<ManageUsers />} />
+        <Route path="/admin/reports" element={<ViewReports />} />
+      </Route>
+
+      <Route element={<ProtectedRoute role="vendor" />}>
+        <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+        <Route path="/vendor/bookings" element={<ViewBookings />} />
+        <Route path="/vendor/revenue" element={<RevenueReport />} />
+        <Route path="/vendor/services" element={<VendorManageServices />} />
+        <Route path="/vendor/add-service" element={<AddService />} />
       </Route>
     </Routes>
   );

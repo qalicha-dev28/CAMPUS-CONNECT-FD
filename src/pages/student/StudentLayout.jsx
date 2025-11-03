@@ -1,15 +1,12 @@
 // src/pages/student/StudentLayout.jsx
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { FiHome, FiUser, FiBookOpen, FiGrid, FiLogOut } from "react-icons/fi";
-import { useAuth } from "../../context/AuthContext";
 
 export default function StudentLayout() {
-  const { setUser } = useAuth();
   const navigate = useNavigate();
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+    // For now, just navigate to home since auth is removed
     navigate("/");
   };
 
