@@ -13,8 +13,23 @@ export default function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    // For now, just navigate to student dashboard since auth is removed
-    navigate("/student/dashboard");
+    const { email, password } = form;
+
+    // Basic password validation for demo
+    if (!password.trim()) {
+      alert("Please enter a password.");
+      return;
+    }
+
+    if (email === "student@campus.edu") {
+      navigate("/student/dashboard");
+    } else if (email === "vendor@campus.edu") {
+      navigate("/vendor/dashboard");
+    } else if (email === "admin@campus.edu") {
+      navigate("/admin/dashboard");
+    } else {
+      alert("Invalid email. Please use one of the demo accounts.");
+    }
   };
 
   return (
