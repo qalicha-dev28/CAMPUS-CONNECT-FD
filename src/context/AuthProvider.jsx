@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { registerUser, loginUser, getCurrentUser, logoutUser } from '../services/fakeAuth';
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5004';
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://campus-connect-higr.onrender.com';
 
 const AuthContext = createContext();
 export { AuthContext };
