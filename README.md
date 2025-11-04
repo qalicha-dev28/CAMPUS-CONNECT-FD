@@ -74,7 +74,7 @@ The platform supports various campus services including:
    npm run dev
    ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+4. Open your browser and navigate to the deployed application at `https://campus-connect-fd.onrender.com` or run locally with `npm run dev` for development
 
 ### Build for Production
 
