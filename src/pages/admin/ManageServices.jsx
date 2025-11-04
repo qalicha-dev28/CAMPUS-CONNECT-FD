@@ -12,7 +12,9 @@ export default function ManageServices() {
 
   useEffect(() => {
     async function load() {
+      console.log('ManageServices: Loading services...');
       const s = await fetchServices();
+      console.log('ManageServices: Loaded services:', s);
       setServices(s);
     }
     load();
@@ -41,15 +43,21 @@ export default function ManageServices() {
   };
 
   const handleSaveService = async (serviceData) => {
+    console.log('ManageServices: Saving service:', serviceData);
     try {
       if (editingService) {
+        console.log('ManageServices: Updating service with id:', editingService.id);
         await updateService(editingService.id, serviceData);
       } else {
+        console.log('ManageServices: Creating new service');
         await createService(serviceData);
       }
+      console.log('ManageServices: Fetching updated services...');
       const updatedServices = await fetchServices();
+      console.log('ManageServices: Updated services:', updatedServices);
       setServices(updatedServices);
-    } catch {
+    } catch (error) {
+      console.error('ManageServices: Failed to save service:', error);
       alert("Failed to save service");
     }
   };

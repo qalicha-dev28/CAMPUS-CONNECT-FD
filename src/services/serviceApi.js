@@ -66,11 +66,17 @@ let mockServices = [
 ];
 
 export async function fetchServices({ category = '', search = '' } = {}) {
+  console.log('fetchServices called with params:', { category, search });
   try {
+    console.log('Attempting to fetch from backend...');
     const response = await api.getServices({ category, search });
-    return response.data || response;
+    console.log('Backend response:', response);
+    const result = response.data || response;
+    console.log('Returning backend data:', result);
+    return result;
   } catch (error) {
     console.warn('Backend not available, using mock data:', error.message);
+    console.log('Error details:', error);
     // Filter mock data based on parameters
     let filtered = [...mockServices];
     if (category && category !== 'All') {
@@ -82,20 +88,32 @@ export async function fetchServices({ category = '', search = '' } = {}) {
         s.vendorName.toLowerCase().includes(search.toLowerCase())
       );
     }
+    console.log('Returning filtered mock data:', filtered);
     return filtered;
   }
 }
 
 // CRUD Operations for Services
 export async function createService(serviceData) {
-  const newService = {
-    id: Math.max(...mockServices.map(s => s.id)) + 1,
-    ...serviceData,
-    rating: 0,
-    reviews: 0,
-  };
-  mockServices.push(newService);
-  return newService;
+  console.log('createService called with data:', serviceData);
+  try {
+    console.log('Attempting to create service via backend...');
+    const response = await api.createService(serviceData);
+    console.log('Backend create response:', response);
+    return response.data || response;
+  } catch (error) {
+    console.warn('Backend create failed, using mock:', error.message);
+    console.log('Error details:', error);
+    const newService = {
+      id: Math.max(...mockServices.map(s => s.id)) + 1,
+      ...serviceData,
+      rating: 0,
+      reviews: 0,
+    };
+    console.log('Created mock service:', newService);
+    mockServices.push(newService);
+    return newService;
+  }
 }
 
 export async function updateService(id, serviceData) {

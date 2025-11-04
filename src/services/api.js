@@ -5,13 +5,18 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5004';
 export const api = {
   // Services
   async getServices({ category = '', search = '', page = 1, limit = 10 } = {}) {
+    console.log('api.getServices called with params:', { category, search, page, limit });
     const params = new URLSearchParams();
     if (category) params.append('category', category);
     if (search) params.append('search', search);
     params.append('page', page);
     params.append('limit', limit);
 
-    const response = await axios.get(`${BASE_URL}/services?${params}`);
+    const url = `${BASE_URL}/services?${params}`;
+    console.log('Making request to:', url);
+    const response = await axios.get(url);
+    console.log('API response status:', response.status);
+    console.log('API response data:', response.data);
     return response.data;
   },
 
@@ -21,7 +26,12 @@ export const api = {
   },
 
   async createService(serviceData) {
-    const response = await axios.post(`${BASE_URL}/services`, serviceData);
+    console.log('api.createService called with data:', serviceData);
+    const url = `${BASE_URL}/services`;
+    console.log('Making POST request to:', url);
+    const response = await axios.post(url, serviceData);
+    console.log('Create service response status:', response.status);
+    console.log('Create service response data:', response.data);
     return response.data;
   },
 
