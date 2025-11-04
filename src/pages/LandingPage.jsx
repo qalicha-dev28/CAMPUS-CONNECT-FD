@@ -85,7 +85,7 @@ export default function LandingPage() {
           >
             <h1 className="text-3xl lg:text-[42px] font-bold leading-tight">
               Your Campus Services,<br />
-              <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent animate-pulse">
                 Just a Click Away
               </span>
             </h1>
