@@ -416,7 +416,7 @@ export default function VendorDashboard() {
 
                     <div className="flex items-center justify-between text-sm text-gray-300 mb-4" >
                       <span>By {service.vendorName}</span>
-                      <span className="font-semibold text-lime-400" >${service.price}</span>
+                      <span className="font-semibold text-lime-400">{service.price}</span>
                     </div>
 
                     <div className="flex gap-2" >
