@@ -75,7 +75,7 @@ export default function LandingPage() {
         </motion.div>
 
         {/* Hero Section */}
-        <div className="flex flex-col lg:flex-row justify-between items-center mt-16 lg:mt-28 px-4 lg:px-10">
+        <div className="flex flex-col lg:flex-row justify-between items-center mt-20 lg:mt-32 px-4 lg:px-10">
           {/* Text */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -85,17 +85,17 @@ export default function LandingPage() {
           >
             <h1 className="text-3xl lg:text-[42px] font-bold leading-tight">
               Your Campus Services,<br />
-              <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent animate-pulse">
+              <span className="bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent animate-pulse drop-shadow-lg">
                 Just a Click Away
               </span>
             </h1>
 
-            <p className="text-base lg:text-[16px] text-gray-300 mt-4 leading-relaxed">
+            <p className="text-base lg:text-lg text-gray-300 mt-6 leading-relaxed max-w-2xl">
               Connect with essential campus services instantly. From laundry to
               tutoring, everything you need in one convenient platform.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center mt-8 space-y-4 sm:space-y-0 sm:space-x-6">
+            <div className="flex flex-col sm:flex-row items-center mt-10 space-y-6 sm:space-y-0 sm:space-x-8">
               <motion.div
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
