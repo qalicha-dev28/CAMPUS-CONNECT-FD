@@ -11,24 +11,35 @@ export default function LoginPage() {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
     const { email, password } = form;
 
-    // Basic password validation for demo
-    if (!password.trim()) {
-      alert("Please enter a password.");
-      return;
-    }
+    try {
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (email === "student@campus.edu") {
-      navigate("/student/dashboard");
-    } else if (email === "vendor@campus.edu") {
-      navigate("/vendor/dashboard");
-    } else if (email === "admin@campus.edu") {
-      navigate("/admin/dashboard");
-    } else {
-      alert("Invalid email. Please use one of the demo accounts.");
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("cc_token", data.token);
+        if (data.role === "student") {
+          navigate("/student/dashboard");
+        } else if (data.role === "vendor") {
+          navigate("/vendor/dashboard");
+        } else if (data.role === "admin") {
+          navigate("/admin/dashboard");
+        } else {
+          alert("Unknown role returned from backend.");
+        }
+      } else {
+        alert("Invalid credentials.");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Network error. Please try again.");
     }
   };
 
