@@ -5,7 +5,7 @@ export default function LandingPage() {
   return (
     <>
 
-      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen w-full flex justify-center relative overflow-hidden">
+      <div className="bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0f0f0f] min-h-screen w-full flex justify-center relative overflow-hidden">
       {/* Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
