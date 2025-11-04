@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
+import { registerUser, loginUser, getCurrentUser, logoutUser } from '../services/fakeAuth';
 
 const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5004';
 
@@ -52,8 +53,22 @@ export const AuthProvider = ({ children }) => {
           console.log('Auth check successful');
         } catch (error) {
           console.error('Auth check failed:', error.response || error);
-          localStorage.removeItem('cc_token');
-          setToken(null);
+          // Fallback to fake auth if backend fails
+          const fakeUser = getCurrentUser();
+          if (fakeUser) {
+            console.log('Using fake auth fallback:', fakeUser);
+            setUser(fakeUser);
+          } else {
+            localStorage.removeItem('cc_token');
+            setToken(null);
+          }
+        }
+      } else {
+        // Check fake auth
+        const fakeUser = getCurrentUser();
+        if (fakeUser) {
+          console.log('Using fake auth:', fakeUser);
+          setUser(fakeUser);
         }
       }
       setLoading(false);
@@ -78,6 +93,19 @@ export const AuthProvider = ({ children }) => {
       return userData;
     } catch (error) {
       console.error('Login error:', error.response || error);
+      // Fallback to fake auth
+      try {
+        console.log('Trying fake auth fallback');
+        loginUser(email, password);
+        const fakeUser = getCurrentUser();
+        if (fakeUser) {
+          console.log('Fake auth successful:', fakeUser);
+          setUser(fakeUser);
+          return fakeUser;
+        }
+      } catch (fakeError) {
+        console.error('Fake auth also failed:', fakeError);
+      }
       throw new Error(error.response?.data?.message || 'Login failed');
     }
   };
@@ -91,12 +119,27 @@ export const AuthProvider = ({ children }) => {
       setUser(newUser);
       return newUser;
     } catch (error) {
+      console.error('Registration error:', error.response || error);
+      // Fallback to fake auth
+      try {
+        console.log('Trying fake auth registration fallback');
+        registerUser(userData);
+        const fakeUser = getCurrentUser();
+        if (fakeUser) {
+          console.log('Fake auth registration successful:', fakeUser);
+          setUser(fakeUser);
+          return fakeUser;
+        }
+      } catch (fakeError) {
+        console.error('Fake auth registration also failed:', fakeError);
+      }
       throw new Error(error.response?.data?.message || 'Registration failed');
     }
   };
 
   const logout = () => {
     localStorage.removeItem('cc_token');
+    logoutUser(); // Also clear fake auth
     setToken(null);
     setUser(null);
   };
