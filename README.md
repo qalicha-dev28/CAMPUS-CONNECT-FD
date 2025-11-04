@@ -1,5 +1,8 @@
 # CampusConnect
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Frontend-blue)](https://campus-connect-fd.onrender.com)
+[![Backend API](https://img.shields.io/badge/Backend%20API-Production-green)](https://campus-connect-higr.onrender.com)
+
 A comprehensive platform connecting students with essential campus services. Built with React, Vite, and modern web technologies to provide a seamless experience for students, service providers, and administrators.
 
 ## Overview
@@ -49,6 +52,16 @@ The platform supports various campus services including:
 - **Food Delivery**: Hot meals from campus dining partners
 - **Tech Support**: Device repair and software assistance
 
+## 🚀 Live Demo
+
+**Frontend Application**: [https://campus-connect-fd.onrender.com](https://campus-connect-fd.onrender.com)
+**Backend API**: [https://campus-connect-higr.onrender.com](https://campus-connect-higr.onrender.com)
+
+### Demo Accounts
+- **Student**: student@campus.edu (any password)
+- **Vendor**: vendor@campus.edu (any password)
+- **Admin**: admin@campusconnect.com (any password)
+
 ## Getting Started
 
 ### Prerequisites
@@ -59,22 +72,22 @@ The platform supports various campus services including:
 ### Installation
 
 1. Clone the repository:
-   ```bash
-   git clone <repository-url>
-   cd campus-connect-fd
-   ```
+    ```bash
+    git clone https://github.com/qalicha-dev28/CAMPUS-CONNECT-FD.git
+    cd campus-connect-fd
+    ```
 
 2. Install dependencies:
-   ```bash
-   npm install
-   ```
+    ```bash
+    npm install
+    ```
 
 3. Start the development server:
-   ```bash
-   npm run dev
-   ```
+    ```bash
+    npm run dev
+    ```
 
-4. Open your browser and navigate to the deployed application at `https://campus-connect-fd.onrender.com` or run locally with `npm run dev` for development
+4. Open your browser and navigate to `http://localhost:5173` for development
 
 ### Build for Production
 
