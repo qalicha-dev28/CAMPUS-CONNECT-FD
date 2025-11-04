@@ -31,8 +31,11 @@ export default function SignupPage() {
     setLoading(true);
     setError("");
 
+    console.log('SignupPage: Attempting registration with:', form);
+
     try {
       const user = await register(form);
+      console.log('SignupPage: Registration successful:', user);
 
       // Navigate based on role
       if (user.role === "student") {
@@ -43,6 +46,7 @@ export default function SignupPage() {
         navigate("/admin/dashboard");
       }
     } catch (err) {
+      console.error('SignupPage: Registration failed:', err);
       setError(err.message);
     } finally {
       setLoading(false);
