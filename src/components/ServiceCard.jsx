@@ -14,7 +14,7 @@ export default function ServiceCard({ service }) {
         <p className="text-[11px] text-gray-500 mb-3">{service.description}</p>
 
         <div className="flex justify-between text-xs">
-          <span className="text-lime-400 font-semibold">${service.price}</span>
+          <span className="text-lime-400 font-semibold">{service.price}</span>
           <span className="text-yellow-300">⭐ {service.rating}</span>
         </div>
       </div>

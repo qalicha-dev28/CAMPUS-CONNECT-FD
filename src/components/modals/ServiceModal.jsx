@@ -143,7 +143,7 @@ export default function ServiceModal({ isOpen, onClose, service, onSave }) {
                     onChange={handleChange}
                     required
                     className="w-full bg-[#0a0a0a] border border-gray-700 rounded-lg p-3 focus:outline-none focus:border-lime-400 focus:ring-1 focus:ring-lime-400/50 transition-modern text-white placeholder-gray-400"
-                    placeholder="e.g., $10.99, $5/hour"
+                    placeholder="e.g., KSh 2,500, KSh 1,400/hour"
                   />
                 </div>
 

@@ -87,7 +87,7 @@ export default function RevenueReport() {
               </div>
             </div>
             <p className="text-gray-400 text-sm font-medium mb-1" >Total Revenue</p>
-            <h2 className="text-2xl font-bold text-white" >${totalRevenue.toFixed(2)}</h2>
+            <h2 className="text-2xl font-bold text-white" >KSh {totalRevenue.toLocaleString()}</h2>
           </div>
 
           <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] border border-neutral-800/50 rounded-xl p-6" >
@@ -111,7 +111,7 @@ export default function RevenueReport() {
               </div>
             </div>
             <p className="text-gray-400 text-sm font-medium mb-1" >Average Revenue</p>
-            <h2 className="text-2xl font-bold text-white" >${averageRevenue.toFixed(2)}</h2>
+            <h2 className="text-2xl font-bold text-white" >KSh {averageRevenue.toLocaleString()}</h2>
           </div>
         </motion.div>
 
@@ -135,7 +135,7 @@ export default function RevenueReport() {
                         style={{ width: `${(data.revenue / Math.max(...chartData.map(d => d.revenue))) * 100}%` }}
                       ></div>
                     </div>
-                    <span className="text-white font-medium" >${data.revenue.toFixed(2)}</span>
+                    <span className="text-white font-medium" >KSh {data.revenue.toLocaleString()}</span>
                   </div>
                 </div>
               ))
@@ -187,7 +187,7 @@ export default function RevenueReport() {
                       {booking.date}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-lime-400" >
-                      ${booking.amount}
+                      KSh {Number(booking.amount).toLocaleString()}
                     </td>
                   </motion.tr>
                 ))}

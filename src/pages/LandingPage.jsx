@@ -1,12 +1,11 @@
 import { Link } from "react-router-dom";
-import BackButton from "../components/BackButton";
 import { motion } from "framer-motion";
 
 export default function LandingPage() {
   return (
     <>
 
-      <div className="bg-gradient-to-br from-[#0e0e0e] via-[#1a1a1a] to-[#0f0f0f] min-h-screen w-full flex justify-center relative overflow-hidden">
+      <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 min-h-screen w-full flex justify-center relative overflow-hidden">
       {/* Floating Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <motion.div
@@ -48,36 +47,29 @@ export default function LandingPage() {
 
       {/* Responsive container */}
       <div className="max-w-7xl w-full px-4 sm:px-6 lg:px-8 pt-8 relative min-h-screen z-10">
-        {/* Back Button */}
-        <div className="mb-4">
-          <BackButton to="/" />
-        </div>
-
         {/* Navbar */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="flex justify-between items-center text-white text-sm shadow-subtle bg-dark/80 backdrop-blur-sm border-b border-neutral-800/50 px-8 lg:px-12 py-6 rounded-b-lg"
+          className="flex justify-between items-center text-white text-sm glass border-b border-white/10 px-8 lg:px-12 py-6 rounded-b-xl"
         >
-          <span className="font-semibold text-lg tracking-tight bg-gradient-to-r from-lime-400 to-lime-300 bg-clip-text text-transparent">
+          <span className="font-bold text-xl tracking-tight bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
             CampusConnect
           </span>
 
           <div className="flex space-x-6">
             <Link
               to="/login"
-              className="hover:text-white transition-modern font-medium relative group"
+              className="hover:text-primary transition-normal font-medium relative group px-3 py-2 rounded-lg hover:bg-white/5"
             >
               Login
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
             </Link>
             <Link
               to="/signup"
-              className="hover:text-white transition-modern font-medium relative group"
+              className="btn-primary hover:scale-105"
             >
               Sign Up
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-lime-400 transition-all duration-300 group-hover:w-full"></span>
             </Link>
           </div>
         </motion.div>
@@ -91,9 +83,9 @@ export default function LandingPage() {
             transition={{ duration: 0.6 }}
             className="text-white w-full lg:w-[500px] text-center lg:text-left"
           >
-            <h1 className="text-3xl lg:text-[42px] font-semibold leading-tight">
+            <h1 className="text-3xl lg:text-[42px] font-bold leading-tight">
               Your Campus Services,<br />
-              <span className="bg-gradient-to-r from-lime-400 to-lime-300 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-primary to-primary-dark bg-clip-text text-transparent">
                 Just a Click Away
               </span>
             </h1>
@@ -110,7 +102,7 @@ export default function LandingPage() {
               >
                 <Link
                   to="/signup"
-                  className="bg-lime-400 text-black px-8 py-3 rounded-lg hover:bg-lime-300 hover:shadow-medium transition-modern font-medium shadow-subtle hover:shadow-lime-400/25 inline-block"
+                  className="btn-primary text-lg px-8 py-4 hover:scale-105"
                 >
                   Get Started
                 </Link>
@@ -118,11 +110,11 @@ export default function LandingPage() {
 
               <Link
                 to="/login"
-                className="text-gray-300 hover:text-white transition-modern font-medium flex items-center gap-2 group"
+                className="btn-secondary flex items-center gap-2 group hover:scale-105"
               >
                 Browse Services
                 <motion.span
-                  className="text-lime-400"
+                  className="text-primary"
                   animate={{ x: [0, 5, 0] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
@@ -137,7 +129,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, scale: 0.7 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7 }}
-            className="bg-gradient-to-br from-[#121212] to-[#1e1e1e] h-[250px] lg:h-[300px] w-full lg:w-[480px] rounded-xl flex items-center justify-center shadow-strong mt-8 lg:mt-0 border border-neutral-800/50 relative overflow-hidden"
+            className="card-modern h-[250px] lg:h-[300px] w-full lg:w-[480px] flex items-center justify-center mt-8 lg:mt-0 relative overflow-hidden"
           >
             {/* Animated background pattern */}
             <div className="absolute inset-0 opacity-10">
@@ -166,8 +158,8 @@ export default function LandingPage() {
                 transition={{ duration: 4, repeat: Infinity }}
                 className="flex flex-col items-center"
               >
-                <div className="w-12 h-12 bg-lime-400 rounded-lg flex items-center justify-center mb-2">
-                  <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <div className="w-12 h-12 bg-secondary rounded-xl flex items-center justify-center mb-2 shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M4 4a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2H4zm2 6a2 2 0 114 0 2 2 0 01-4 0z" clipRule="evenodd" />
                   </svg>
                 </div>
@@ -179,8 +171,8 @@ export default function LandingPage() {
                 transition={{ duration: 3.5, repeat: Infinity }}
                 className="flex flex-col items-center"
               >
-                <div className="w-12 h-12 bg-lime-400 rounded-lg flex items-center justify-center mb-2">
-                  <svg className="w-6 h-6 text-black" fill="currentColor" viewBox="0 0 20 20">
+                <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center mb-2 shadow-lg">
+                  <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                 </div>
@@ -245,7 +237,7 @@ export default function LandingPage() {
                 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] w-full sm:w-[280px] h-[140px] rounded-xl shadow-medium hover:shadow-strong cursor-pointer transition-modern border border-neutral-800/30 p-6 relative overflow-hidden group"
+                className="card-modern w-full sm:w-[280px] h-[140px] cursor-pointer p-6 relative overflow-hidden group"
               >
                 {/* Hover glow effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
@@ -322,7 +314,7 @@ export default function LandingPage() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
-              className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] rounded-xl p-8 border border-neutral-800/30"
+              className="card-modern p-8"
             >
               <h4 className="text-lg font-semibold text-white mb-6">Our Values</h4>
               <div className="space-y-4">
@@ -458,7 +450,7 @@ export default function LandingPage() {
                   boxShadow: "0 20px 40px rgba(184, 255, 35, 0.15)"
                 }}
                 whileTap={{ scale: 0.98 }}
-                className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] rounded-xl shadow-medium hover:shadow-strong cursor-pointer transition-modern border border-neutral-800/30 p-6 relative overflow-hidden group"
+                className="card-modern cursor-pointer p-6 relative overflow-hidden group"
               >
                 <div className="absolute inset-0 bg-gradient-to-br from-lime-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl"></div>
 
@@ -592,7 +584,7 @@ export default function LandingPage() {
                     <label className="block text-sm font-medium text-gray-300 mb-2">First Name</label>
                     <input
                       type="text"
-                      className="w-full px-4 py-3 bg-[#0f0f0f] border border-neutral-800/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-lime-400 transition-colors"
+                      className="input-modern"
                       placeholder="John"
                     />
                   </div>
@@ -628,7 +620,7 @@ export default function LandingPage() {
                   <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
                   <textarea
                     rows="4"
-                    className="w-full px-4 py-3 bg-[#0f0f0f] border border-neutral-800/50 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-lime-400 transition-colors resize-none"
+                    className="input-modern resize-none"
                     placeholder="Tell us how we can help you..."
                   ></textarea>
                 </div>
@@ -636,7 +628,7 @@ export default function LandingPage() {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  className="w-full bg-lime-400 text-black px-6 py-3 rounded-lg hover:bg-lime-300 transition-modern font-medium shadow-subtle hover:shadow-lime-400/25"
+                  className="btn-primary"
                 >
                   Send Message
                 </motion.button>

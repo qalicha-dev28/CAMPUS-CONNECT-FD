@@ -16,7 +16,7 @@ export default function ServiceDetails({ service, onClose }) {
 
         <div className="text-sm">
           <div className="mb-2">
-            <span className="text-lime-400 font-bold">${service.price}</span>
+            <span className="text-lime-400 font-bold">{service.price}</span>
           </div>
           <div className="text-yellow-300">⭐ {service.rating}</div>
         </div>

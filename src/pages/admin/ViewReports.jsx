@@ -183,7 +183,7 @@ export default function ViewReports() {
               </div>
             </div>
             <p className="text-gray-400 text-sm font-medium mb-1" >Total Revenue</p>
-            <h2 className="text-2xl font-bold text-white" >${totalRevenue}</h2>
+            <h2 className="text-2xl font-bold text-white" >KSh {totalRevenue.toLocaleString()}</h2>
           </div>
 
           <div className="bg-gradient-to-br from-[#1a1a1a] to-[#252525] p-6 rounded-xl border border-neutral-800/50 shadow-medium" >
@@ -247,7 +247,7 @@ export default function ViewReports() {
                       ></motion.div>
                     </div>
                   </div>
-                  <span className="text-white text-sm font-medium" >${data.revenue}</span>
+                  <span className="text-white text-sm font-medium" >KSh {data.revenue.toLocaleString()}</span>
                 </div>
               ))}
             </div>

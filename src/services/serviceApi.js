@@ -9,7 +9,7 @@ let mockServices = [
     vendorName: "QuickWash Campus",
     rating: 4.8,
     reviews: 45,
-    price: "$8.99",
+    price: "KSh 2,500",
     category: "Laundry",
     description: "Fast turnaround, pickup + drop-off on campus."
   },
@@ -19,7 +19,7 @@ let mockServices = [
     vendorName: "CampusPrint Solutions",
     rating: 4.6,
     reviews: 78,
-    price: "$0.10/page",
+    price: "KSh 30/page",
     category: "Printing",
     description: "Affordable printing, scanning, and photocopying services."
   },
@@ -29,7 +29,7 @@ let mockServices = [
     vendorName: "TutorHub",
     rating: 4.7,
     reviews: 32,
-    price: "$25/hour",
+    price: "KSh 7,000/hour",
     category: "Tutoring",
     description: "Expert tutors available for academic support."
   },
@@ -39,7 +39,7 @@ let mockServices = [
     vendorName: "Campus Dining",
     rating: 4.5,
     reviews: 2003,
-    price: "$15/day",
+    price: "KSh 4,200/day",
     category: "Food",
     description: "Healthy meals delivered anywhere on campus."
   },
@@ -49,7 +49,7 @@ let mockServices = [
     vendorName: "GreenRide",
     rating: 4.4,
     reviews: 67,
-    price: "$5/day",
+    price: "KSh 1,400/day",
     category: "Transport",
     description: "Affordable environmentally-friendly bike rentals."
   },
@@ -59,7 +59,7 @@ let mockServices = [
     vendorName: "FitCampus",
     rating: 4.9,
     reviews: 150,
-    price: "$20/month",
+    price: "KSh 5,600/month",
     category: "Fitness",
     description: "Full access to campus gym facilities with personal training options."
   },
@@ -117,21 +117,43 @@ export async function createService(serviceData) {
 }
 
 export async function updateService(id, serviceData) {
-  const index = mockServices.findIndex(s => s.id === id);
-  if (index !== -1) {
-    mockServices[index] = { ...mockServices[index], ...serviceData };
-    return mockServices[index];
+  console.log('updateService called with id:', id, 'data:', serviceData);
+  try {
+    console.log('Attempting to update service via backend...');
+    const response = await api.updateService(id, serviceData);
+    console.log('Backend update response:', response);
+    return response.data || response;
+  } catch (error) {
+    console.warn('Backend update failed, using mock:', error.message);
+    console.log('Error details:', error);
+    const index = mockServices.findIndex(s => s.id === id);
+    if (index !== -1) {
+      mockServices[index] = { ...mockServices[index], ...serviceData };
+      console.log('Updated mock service:', mockServices[index]);
+      return mockServices[index];
+    }
+    throw new Error('Service not found');
   }
-  throw new Error('Service not found');
 }
 
 export async function deleteService(id) {
-  const index = mockServices.findIndex(s => s.id === id);
-  if (index !== -1) {
-    const deletedService = mockServices.splice(index, 1)[0];
-    return deletedService;
+  console.log('deleteService called with id:', id);
+  try {
+    console.log('Attempting to delete service via backend...');
+    const response = await api.deleteService(id);
+    console.log('Backend delete response:', response);
+    return response.data || response;
+  } catch (error) {
+    console.warn('Backend delete failed, using mock:', error.message);
+    console.log('Error details:', error);
+    const index = mockServices.findIndex(s => s.id === id);
+    if (index !== -1) {
+      const deletedService = mockServices.splice(index, 1)[0];
+      console.log('Deleted mock service:', deletedService);
+      return deletedService;
+    }
+    throw new Error('Service not found');
   }
-  throw new Error('Service not found');
 }
 
 /** Mock bookings - stored in memory for CRUD operations */

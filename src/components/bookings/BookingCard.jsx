@@ -25,7 +25,7 @@ export default function BookingCard({ booking }) {
             </div>
             <div className="flex items-center gap-2">
               <span>💵</span>
-              <span className="text-neon font-semibold">${Number(price).toFixed(2)}</span>
+              <span className="text-neon font-semibold">{price}</span>
             </div>
           </div>
         </div>
