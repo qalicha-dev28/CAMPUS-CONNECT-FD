@@ -2,8 +2,22 @@
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-Frontend-blue)](https://campus-connect-fd.onrender.com)
 [![Backend API](https://img.shields.io/badge/Backend%20API-Production-green)](https://campus-connect-higr.onrender.com)
+[![License](https://img.shields.io/badge/License-All%20Rights%20Reserved-red)](LICENSE)
 
 A comprehensive platform connecting students with essential campus services. Built with React, Vite, and modern web technologies to provide a seamless experience for students, service providers, and administrators.
+
+## Table of Contents
+
+- [Overview](#overview)
+- [Features](#features)
+- [Technology Stack](#technology-stack)
+- [Available Services](#available-services)
+- [Live Demo](#live-demo)
+- [Getting Started](#getting-started)
+- [Project Structure](#project-structure)
+- [Key Components](#key-components)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Overview
 
@@ -38,8 +52,9 @@ CampusConnect is a web application designed to bridge the gap between students a
 - **Routing**: React Router DOM v7
 - **Forms**: React Hook Form for form management
 - **HTTP Client**: Axios for API communication
-- **Icons**: React Icons library
+- **Icons**: React Icons and Lucide React libraries
 - **Date Handling**: Day.js for date manipulation
+- **Build Tool**: Vite for fast development and optimized builds
 
 ## Available Services
 
@@ -54,7 +69,7 @@ The platform supports various campus services including:
 
 ## 🚀 Live Demo
 
-**Frontend Application**: [https://campus-connect-fd.onrender.com](https://campus-connect-fd.onrender.com)
+**Frontend Application**: [https://campus-connect-fd.onrender.com](https://campus-connect-fd.onrender.com)  
 **Backend API**: [https://campus-connect-higr.onrender.com](https://campus-connect-higr.onrender.com)
 
 ### Demo Accounts
@@ -72,22 +87,22 @@ The platform supports various campus services including:
 ### Installation
 
 1. Clone the repository:
-    ```bash
-    git clone https://github.com/qalicha-dev28/CAMPUS-CONNECT-FD.git
-    cd campus-connect-fd
-    ```
+   ```bash
+   git clone https://github.com/qalicha-dev28/CAMPUS-CONNECT-FD.git
+   cd campus-connect-fd
+   ```
 
 2. Install dependencies:
-    ```bash
-    npm install
-    ```
+   ```bash
+   npm install
+   ```
 
 3. Start the development server:
-    ```bash
-    npm run dev
-    ```
+   ```bash
+   npm run dev
+   ```
 
-4. Open your browser and navigate to `http://localhost:5173` for development
+4. Open your browser and navigate to `http://localhost:5173` for development.
 
 ### Build for Production
 
@@ -124,7 +139,7 @@ src/
 ├── layouts/            # Layout components
 ├── hooks/              # Custom React hooks
 ├── context/            # React context providers
-└── styles/             # Additional CSS files
+└── assets/             # Static assets
 ```
 
 ## Key Components
@@ -142,6 +157,8 @@ This project was developed by:
 - Alex Rooney
 - Kaisang Vincent
 - Ochieng Oduor
+
+We welcome contributions! Please feel free to submit issues, feature requests, or pull requests.
 
 ## License
 
