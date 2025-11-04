@@ -32,15 +32,15 @@ export default function LeaveReview() {
     <>
       <BackButton className="mb-4" />
 
-      <div className="text-white p-6" overflow-y-auto>
-      <h2 className="text-2xl font-bold mb-4" overflow-y-auto>Leave a Review for {serviceName}</h2>
+      <div className="text-white p-6" >
+      <h2 className="text-2xl font-bold mb-4" >Leave a Review for {serviceName}</h2>
 
-      <form onSubmit={handleSubmit} className="space-y-3 max-w-md" overflow-y-auto>
+      <form onSubmit={handleSubmit} className="space-y-3 max-w-md" >
         <select
           value={rating}
           onChange={(e) => setRating(e.target.value)}
           required
-          className="w-full bg-gray-800 p-2 rounded" overflow-y-auto
+          className="w-full bg-gray-800 p-2 rounded" 
         >
           <option value="">Select rating</option>
           <option value="⭐">⭐</option>
@@ -55,20 +55,20 @@ export default function LeaveReview() {
           value={comment}
           onChange={(e) => setComment(e.target.value)}
           required
-          className="w-full bg-gray-800 p-2 h-24 rounded" overflow-y-auto
+          className="w-full bg-gray-800 p-2 h-24 rounded" 
         />
 
-        <button className="bg-lime-400 text-black px-4 py-2 rounded" overflow-y-auto>
+        <button className="bg-lime-400 text-black px-4 py-2 rounded" >
           Submit Review
         </button>
       </form>
 
-      <h3 className="mt-6 text-xl font-bold" overflow-y-auto>Existing Reviews:</h3>
-      <ul className="mt-2 space-y-2" overflow-y-auto>
+      <h3 className="mt-6 text-xl font-bold" >Existing Reviews:</h3>
+      <ul className="mt-2 space-y-2" >
         {reviews.map((r) => (
           <li
             key={r.id}
-            className="bg-gray-800 p-2 rounded text-sm" overflow-y-auto
+            className="bg-gray-800 p-2 rounded text-sm" 
           >
             <strong>{r.rating}</strong> - {r.comment}
           </li>
